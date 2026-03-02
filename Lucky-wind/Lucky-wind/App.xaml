@@ -3,6 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Lucky_wind.App">
     <Application.Resources>
+        <ResourceDictionary>
 
+            <!-- ── Paleta de colores globales ── -->
+            <Color x:Key="PrimaryColor">#3211d4</Color>
+            <Color x:Key="BackgroundLight">#f6f6f8</Color>
+            <Color x:Key="BackgroundDark">#131022</Color>
+            <Color x:Key="TextDark">#0f172a</Color>
+            <Color x:Key="TextMuted">#64748b</Color>
+            <Color x:Key="TextSubtle">#94a3b8</Color>
+            <Color x:Key="BorderColor">#e2e8f0</Color>
+            <Color x:Key="White">#FFFFFF</Color>
+            <Color x:Key="PrimaryLight">#ede9fc</Color>
+            <Color x:Key="DangerColor">#be123c</Color>
+            <Color x:Key="DangerLight">#fff1f2</Color>
+
+            <!-- ── Estilos de Label ── -->
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource TextDark}"/>
+            </Style>
+
+            <!-- ── Estilo de Button primario ── -->
+            <Style x:Key="PrimaryButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="CornerRadius" Value="8"/>
+                <Setter Property="HeightRequest" Value="52"/>
+            </Style>
+
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

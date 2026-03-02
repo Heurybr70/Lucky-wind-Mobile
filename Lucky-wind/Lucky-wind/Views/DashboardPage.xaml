@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Lucky_wind.ViewModels"
+             x:Class="Lucky_wind.Views.DashboardPage"
+             BackgroundColor="#f6f6f8"
+             NavigationPage.HasNavigationBar="False">
+
+    <ScrollView>
+        <StackLayout Spacing="0" Padding="28,56,28,40">
+
+            <!-- ── Encabezado ── -->
+            <StackLayout Spacing="4" Margin="0,0,0,32">
+                <Label Text="MENÚ PRINCIPAL"
+                       FontSize="22"
+                       FontAttributes="Bold"
+                       TextColor="#0f172a"
+                       CharacterSpacing="1"/>
+                <StackLayout Orientation="Horizontal" Spacing="6">
+                    <Label Text="Bienvenido,"
+                           FontSize="14"
+                           TextColor="#64748b"/>
+                    <Label Text="{Binding UserEmail}"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#3211d4"/>
+                </StackLayout>
+            </StackLayout>
+
+            <!-- ── Grid de opciones del menú ── -->
+            <Grid ColumnDefinitions="*, *"
+                  RowDefinitions="Auto, Auto"
+                  ColumnSpacing="14"
+                  RowSpacing="14">
+
+                <!-- Registrar Sorteo -->
+                <Frame Grid.Row="0" Grid.Column="0"
+                       CornerRadius="16"
+                       BackgroundColor="White"
+                       BorderColor="#e2e8f0"
+                       HasShadow="False"
+                       Padding="16">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding RegisterSorteoCommand}"/>
+                    </Frame.GestureRecognizers>
+                    <StackLayout Spacing="12" VerticalOptions="Center" HorizontalOptions="Center">
+                        <Frame HeightRequest="52"
+                               WidthRequest="52"
+                               CornerRadius="26"
+                               BackgroundColor="#ede9fc"
+                               BorderColor="Transparent"
+                               HasShadow="False"
+                               Padding="0"
+                               HorizontalOptions="Center">
+                            <Label Text="🎰"
+                                   FontSize="24"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                        <Label Text="Registrar Sorteo"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="#0f172a"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                </Frame>
+
+                <!-- Ver Historial -->
+                <Frame Grid.Row="0" Grid.Column="1"
+                       CornerRadius="16"
+                       BackgroundColor="White"
+                       BorderColor="#e2e8f0"
+                       HasShadow="False"
+                       Padding="16">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding VerHistorialCommand}"/>
+                    </Frame.GestureRecognizers>
+                    <StackLayout Spacing="12" VerticalOptions="Center" HorizontalOptions="Center">
+                        <Frame HeightRequest="52"
+                               WidthRequest="52"
+                               CornerRadius="26"
+                               BackgroundColor="#ede9fc"
+                               BorderColor="Transparent"
+                               HasShadow="False"
+                               Padding="0"
+                               HorizontalOptions="Center">
+                            <Label Text="📋"
+                                   FontSize="24"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                        <Label Text="Ver Historial"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="#0f172a"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                </Frame>
+
+                <!-- Análisis Estadístico -->
+                <Frame Grid.Row="1" Grid.Column="0"
+                       CornerRadius="16"
+                       BackgroundColor="White"
+                       BorderColor="#e2e8f0"
+                       HasShadow="False"
+                       Padding="16">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding AnalisisCommand}"/>
+                    </Frame.GestureRecognizers>
+                    <StackLayout Spacing="12" VerticalOptions="Center" HorizontalOptions="Center">
+                        <Frame HeightRequest="52"
+                               WidthRequest="52"
+                               CornerRadius="26"
+                               BackgroundColor="#ede9fc"
+                               BorderColor="Transparent"
+                               HasShadow="False"
+                               Padding="0"
+                               HorizontalOptions="Center">
+                            <Label Text="📊"
+                                   FontSize="24"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                        <Label Text="Análisis Estadístico"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="#0f172a"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                </Frame>
+
+                <!-- Cerrar Sesión -->
+                <Frame Grid.Row="1" Grid.Column="1"
+                       CornerRadius="16"
+                       BackgroundColor="#fff1f2"
+                       BorderColor="#fecdd3"
+                       HasShadow="False"
+                       Padding="16">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding LogoutCommand}"/>
+                    </Frame.GestureRecognizers>
+                    <StackLayout Spacing="12" VerticalOptions="Center" HorizontalOptions="Center">
+                        <Frame HeightRequest="52"
+                               WidthRequest="52"
+                               CornerRadius="26"
+                               BackgroundColor="#fecdd3"
+                               BorderColor="Transparent"
+                               HasShadow="False"
+                               Padding="0"
+                               HorizontalOptions="Center">
+                            <Label Text="🚪"
+                                   FontSize="24"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                        <Label Text="Cerrar Sesión"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="#be123c"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                </Frame>
+
+            </Grid>
+
+            <!-- ── Decorador inferior ── -->
+            <BoxView Color="#3211d4"
+                     Opacity="0.06"
+                     HeightRequest="1"
+                     Margin="0,40,0,16"/>
+            <Label Text="Lucky-Win · v1.0.0"
+                   FontSize="11"
+                   TextColor="#94a3b8"
+                   HorizontalOptions="Center"/>
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

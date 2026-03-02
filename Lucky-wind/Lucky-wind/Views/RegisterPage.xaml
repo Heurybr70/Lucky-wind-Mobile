@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Lucky_wind.ViewModels"
+             xmlns:conv="clr-namespace:Lucky_wind.Converters"
+             x:Class="Lucky_wind.Views.RegisterPage"
+             BackgroundColor="#f6f6f8"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:InverseBoolConverter x:Key="InverseBool"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+
+        <!-- ── Formulario principal ── -->
+        <ScrollView IsVisible="{Binding IsBusy, Converter={StaticResource InverseBool}}">
+            <StackLayout Spacing="0" Padding="0">
+
+                <!-- ── Header con botón atrás ── -->
+                <Grid BackgroundColor="#f6f6f8"
+                      ColumnDefinitions="Auto, *, Auto"
+                      Padding="12,48,12,12">
+                    <Frame Grid.Column="0"
+                           HeightRequest="40"
+                           WidthRequest="40"
+                           CornerRadius="20"
+                           BackgroundColor="Transparent"
+                           BorderColor="Transparent"
+                           HasShadow="False"
+                           Padding="0">
+                        <Label Text="←"
+                               FontSize="22"
+                               TextColor="#0f172a"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding GoToLoginCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Frame>
+                    <Label Grid.Column="1"
+                           Text="Lucky-Win"
+                           FontSize="17"
+                           FontAttributes="Bold"
+                           TextColor="#3211d4"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                    <BoxView Grid.Column="2" WidthRequest="40" Color="Transparent"/>
+                </Grid>
+
+                <!-- ── Encabezado del formulario ── -->
+                <StackLayout Padding="28,8,28,24" Spacing="6">
+                    <Label Text="Crear cuenta"
+                           FontSize="30"
+                           FontAttributes="Bold"
+                           TextColor="#0f172a"
+                           HorizontalOptions="Start"/>
+                    <Label Text="Únete a nuestra comunidad hoy mismo."
+                           FontSize="13"
+                           TextColor="#64748b"/>
+                </StackLayout>
+
+                <!-- ── Campos del formulario ── -->
+                <StackLayout Padding="28,0,28,40" Spacing="16">
+
+                    <!-- Email -->
+                    <StackLayout Spacing="6">
+                        <Label Text="Email"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="#475569"/>
+                        <Frame BorderColor="#e2e8f0"
+                               CornerRadius="12"
+                               Padding="14,0"
+                               HasShadow="False"
+                               BackgroundColor="White"
+                               HeightRequest="52">
+                            <Entry Placeholder="ejemplo@correo.com"
+                                   Keyboard="Email"
+                                   Text="{Binding Email}"
+                                   BackgroundColor="Transparent"
+                                   TextColor="#0f172a"
+                                   PlaceholderColor="#cbd5e1"
+                                   FontSize="15"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                    </StackLayout>
+
+                    <!-- Contraseña -->
+                    <StackLayout Spacing="6">
+                        <Label Text="Contraseña"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="#475569"/>
+                        <Frame BorderColor="#e2e8f0"
+                               CornerRadius="12"
+                               Padding="14,0"
+                               HasShadow="False"
+                               BackgroundColor="White"
+                               HeightRequest="52">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Entry Grid.Column="0"
+                                       Placeholder="••••••••"
+                                       Text="{Binding Password}"
+                                       IsPassword="{Binding IsPasswordHidden}"
+                                       BackgroundColor="Transparent"
+                                       TextColor="#0f172a"
+                                       PlaceholderColor="#cbd5e1"
+                                       FontSize="15"
+                                       VerticalOptions="Center"/>
+                                <Label Grid.Column="1"
+                                       Text="👁"
+                                       FontSize="18"
+                                       TextColor="#94a3b8"
+                                       VerticalOptions="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding TogglePasswordCommand}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+
+                    <!-- Confirmar Contraseña -->
+                    <StackLayout Spacing="6">
+                        <Label Text="Confirmar Contraseña"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="#475569"/>
+                        <Frame BorderColor="#e2e8f0"
+                               CornerRadius="12"
+                               Padding="14,0"
+                               HasShadow="False"
+                               BackgroundColor="White"
+                               HeightRequest="52">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Entry Grid.Column="0"
+                                       Placeholder="••••••••"
+                                       Text="{Binding ConfirmPassword}"
+                                       IsPassword="{Binding IsConfirmPasswordHidden}"
+                                       BackgroundColor="Transparent"
+                                       TextColor="#0f172a"
+                                       PlaceholderColor="#cbd5e1"
+                                       FontSize="15"
+                                       VerticalOptions="Center"/>
+                                <Label Grid.Column="1"
+                                       Text="👁"
+                                       FontSize="18"
+                                       TextColor="#94a3b8"
+                                       VerticalOptions="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ToggleConfirmPasswordCommand}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+
+                    <!-- ── Checkbox Términos ── -->
+                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="10" Margin="0,4">
+                        <CheckBox Grid.Column="0"
+                                  IsChecked="{Binding AcceptedTerms}"
+                                  Color="#3211d4"
+                                  VerticalOptions="Start"
+                                  Margin="0,2,0,0"/>
+                        <Label Grid.Column="1" FontSize="13" LineBreakMode="WordWrap">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Acepto los " TextColor="#64748b" FontSize="13"/>
+                                    <Span Text="Términos y Condiciones" TextColor="#3211d4" FontSize="13" FontAttributes="Bold"/>
+                                    <Span Text=" y la " TextColor="#64748b" FontSize="13"/>
+                                    <Span Text="Política de Privacidad" TextColor="#3211d4" FontSize="13" FontAttributes="Bold"/>
+                                    <Span Text="." TextColor="#64748b" FontSize="13"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </Grid>
+
+                    <!-- ── Botón Registrarse ── -->
+                    <Button Text="Registrarse"
+                            BackgroundColor="#3211d4"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            CornerRadius="12"
+                            HeightRequest="54"
+                            Margin="0,8,0,0"
+                            Command="{Binding RegisterCommand}"/>
+
+                    <!-- ── Enlace a Login ── -->
+                    <StackLayout Orientation="Horizontal"
+                                 HorizontalOptions="Center"
+                                 Spacing="4"
+                                 Margin="0,12,0,0">
+                        <Label Text="¿Ya tienes una cuenta?"
+                               FontSize="13"
+                               TextColor="#64748b"
+                               VerticalOptions="Center"/>
+                        <Label Text="Volver al Login"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="#3211d4"
+                               VerticalOptions="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding GoToLoginCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+
+        <!-- ── Overlay de carga ── -->
+        <StackLayout IsVisible="{Binding IsBusy}"
+                     VerticalOptions="Center"
+                     HorizontalOptions="Center"
+                     Spacing="12">
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               Color="#3211d4"
+                               HeightRequest="48"
+                               WidthRequest="48"/>
+            <Label Text="Creando cuenta..."
+                   FontSize="13"
+                   TextColor="#64748b"
+                   HorizontalOptions="Center"/>
+        </StackLayout>
+
+        <!-- Elementos decorativos de fondo -->
+        <Frame HeightRequest="250"
+               WidthRequest="250"
+               CornerRadius="125"
+               BackgroundColor="#3211d4"
+               Opacity="0.04"
+               HasShadow="False"
+               HorizontalOptions="End"
+               VerticalOptions="End"
+               TranslationX="80"
+               TranslationY="80"
+               InputTransparent="True"/>
+
+    </Grid>
+</ContentPage>

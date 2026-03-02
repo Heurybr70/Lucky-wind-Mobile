@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Lucky_wind.Services;
+using Lucky_wind.Views;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Lucky_wind
 {
@@ -10,7 +10,24 @@ namespace Lucky_wind
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            // Si ya existe sesión activa, ir directo al Dashboard;
+            // de lo contrario, comenzar en la pantalla Splash.
+            if (AuthService.IsLoggedIn)
+            {
+                MainPage = new NavigationPage(new DashboardPage())
+                {
+                    BarBackgroundColor = Color.FromHex("#3211d4"),
+                    BarTextColor       = Color.White
+                };
+            }
+            else
+            {
+                MainPage = new NavigationPage(new SplashPage())
+                {
+                    BarBackgroundColor = Color.FromHex("#f6f6f8"),
+                    BarTextColor       = Color.FromHex("#3211d4")
+                };
+            }
         }
 
         protected override void OnStart()

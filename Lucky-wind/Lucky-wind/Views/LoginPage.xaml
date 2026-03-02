@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Lucky_wind.ViewModels"
+             xmlns:conv="clr-namespace:Lucky_wind.Converters"
+             x:Class="Lucky_wind.Views.LoginPage"
+             BackgroundColor="#f6f6f8"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:InverseBoolConverter x:Key="InverseBool"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <!-- Contenedor raíz: overlay de carga sobre el formulario -->
+    <Grid>
+
+        <!-- ── Formulario principal ── -->
+        <ScrollView IsVisible="{Binding IsBusy, Converter={StaticResource InverseBool}}">
+            <StackLayout Padding="28,64,28,40" Spacing="0">
+
+                <!-- Logo y título -->
+                <Frame HeightRequest="64"
+                       WidthRequest="64"
+                       CornerRadius="14"
+                       BackgroundColor="#ede9fc"
+                       BorderColor="Transparent"
+                       IsClippedToBounds="True"
+                       HorizontalOptions="Center"
+                       HasShadow="False"
+                       Padding="0"
+                       Margin="0,0,0,20">
+                    <Label Text="★"
+                           FontSize="32"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           TextColor="#3211d4"/>
+                </Frame>
+
+                <Label Text="Lucky-Win"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       TextColor="#0f172a"/>
+
+                <Label Text="Bienvenido de nuevo. Introduce tus datos."
+                       FontSize="13"
+                       HorizontalOptions="Center"
+                       TextColor="#64748b"
+                       Margin="0,6,0,36"/>
+
+                <!-- ── Campo Email ── -->
+                <Label Text="CORREO ELECTRÓNICO"
+                       FontSize="11"
+                       FontAttributes="Bold"
+                       TextColor="#94a3b8"
+                       CharacterSpacing="1"
+                       Margin="0,0,0,4"/>
+                <Entry Placeholder="tu@email.com"
+                       Keyboard="Email"
+                       Text="{Binding Email}"
+                       BackgroundColor="Transparent"
+                       TextColor="#0f172a"
+                       PlaceholderColor="#cbd5e1"
+                       FontSize="15"/>
+                <BoxView Color="#e2e8f0" HeightRequest="1" Margin="0,0,0,24"/>
+
+                <!-- ── Campo Contraseña ── -->
+                <Grid ColumnDefinitions="*, Auto" Margin="0,0,0,4">
+                    <Label Grid.Column="0"
+                           Text="CONTRASEÑA"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="#94a3b8"
+                           CharacterSpacing="1"
+                           VerticalOptions="Center"/>
+                    <Label Grid.Column="1"
+                           Text="¿Olvidaste la clave?"
+                           FontSize="11"
+                           TextColor="#3211d4"
+                           VerticalOptions="Center"/>
+                </Grid>
+
+                <Grid ColumnDefinitions="*, Auto">
+                    <Entry Grid.Column="0"
+                           Placeholder="••••••••"
+                           Text="{Binding Password}"
+                           IsPassword="{Binding IsPasswordHidden}"
+                           BackgroundColor="Transparent"
+                           TextColor="#0f172a"
+                           PlaceholderColor="#cbd5e1"
+                           FontSize="15"/>
+                    <Label Grid.Column="1"
+                           Text="👁"
+                           FontSize="20"
+                           VerticalOptions="Center"
+                           Margin="8,0,0,0"
+                           TextColor="#94a3b8">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding TogglePasswordCommand}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+                <BoxView Color="#e2e8f0" HeightRequest="1" Margin="0,0,0,32"/>
+
+                <!-- ── Botón Entrar ── -->
+                <Button Text="Entrar"
+                        BackgroundColor="#3211d4"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        FontSize="15"
+                        CornerRadius="8"
+                        HeightRequest="52"
+                        Margin="0,0,0,24"
+                        Command="{Binding LoginCommand}"/>
+
+                <!-- ── Separador "O continúa con" ── -->
+                <Grid ColumnDefinitions="*, Auto, *" Margin="0,0,0,16">
+                    <BoxView Grid.Column="0"
+                             Color="#e2e8f0"
+                             HeightRequest="1"
+                             VerticalOptions="Center"/>
+                    <Label Grid.Column="1"
+                           Text="O continúa con"
+                           FontSize="11"
+                           TextColor="#94a3b8"
+                           Margin="12,0"
+                           VerticalOptions="Center"/>
+                    <BoxView Grid.Column="2"
+                             Color="#e2e8f0"
+                             HeightRequest="1"
+                             VerticalOptions="Center"/>
+                </Grid>
+
+                <!-- ── Botones sociales ── -->
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="12" Margin="0,0,0,32">
+                    <Frame Grid.Column="0"
+                           BorderColor="#e2e8f0"
+                           CornerRadius="8"
+                           Padding="0"
+                           HasShadow="False"
+                           BackgroundColor="White">
+                        <StackLayout Orientation="Horizontal"
+                                     HorizontalOptions="Center"
+                                     Padding="8,12"
+                                     Spacing="8">
+                            <Label Text="G" FontSize="16" FontAttributes="Bold"
+                                   TextColor="#ea4335" VerticalOptions="Center"/>
+                            <Label Text="Google" FontSize="13"
+                                   TextColor="#0f172a" VerticalOptions="Center"/>
+                        </StackLayout>
+                    </Frame>
+                    <Frame Grid.Column="1"
+                           BorderColor="#e2e8f0"
+                           CornerRadius="8"
+                           Padding="0"
+                           HasShadow="False"
+                           BackgroundColor="White">
+                        <StackLayout Orientation="Horizontal"
+                                     HorizontalOptions="Center"
+                                     Padding="8,12"
+                                     Spacing="8">
+                            <Label Text="🍎" FontSize="16" VerticalOptions="Center"/>
+                            <Label Text="Apple" FontSize="13"
+                                   TextColor="#0f172a" VerticalOptions="Center"/>
+                        </StackLayout>
+                    </Frame>
+                </Grid>
+
+                <!-- ── Enlace a Registro ── -->
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="4">
+                    <Label Text="¿No tienes una cuenta?"
+                           FontSize="13"
+                           TextColor="#64748b"
+                           VerticalOptions="Center"/>
+                    <Label Text="Crear Cuenta"
+                           FontSize="13"
+                           FontAttributes="Bold"
+                           TextColor="#3211d4"
+                           VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoToRegisterCommand}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+
+            </StackLayout>
+        </ScrollView>
+
+        <!-- ── Overlay de carga ── -->
+        <StackLayout IsVisible="{Binding IsBusy}"
+                     VerticalOptions="Center"
+                     HorizontalOptions="Center"
+                     Spacing="12">
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               Color="#3211d4"
+                               HeightRequest="48"
+                               WidthRequest="48"/>
+            <Label Text="Iniciando sesión..."
+                   FontSize="13"
+                   TextColor="#64748b"
+                   HorizontalOptions="Center"/>
+        </StackLayout>
+
+        <!-- Elementos decorativos de fondo -->
+        <Frame IsVisible="True"
+               HeightRequest="300"
+               WidthRequest="300"
+               CornerRadius="150"
+               BackgroundColor="#3211d4"
+               Opacity="0.03"
+               HasShadow="False"
+               HorizontalOptions="End"
+               VerticalOptions="Start"
+               TranslationX="100"
+               TranslationY="-100"
+               InputTransparent="True"/>
+        <Frame IsVisible="True"
+               HeightRequest="300"
+               WidthRequest="300"
+               CornerRadius="150"
+               BackgroundColor="#3211d4"
+               Opacity="0.03"
+               HasShadow="False"
+               HorizontalOptions="Start"
+               VerticalOptions="End"
+               TranslationX="-100"
+               TranslationY="100"
+               InputTransparent="True"/>
+
+    </Grid>
+</ContentPage>

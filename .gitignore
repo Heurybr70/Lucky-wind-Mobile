@@ -1,0 +1,28 @@
+# Visual Studio / .vs
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vscode/
+
+# Build outputs
+[Bb]in/
+[Oo]bj/
+
+# NuGet
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+packages/
+.nuget/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Xamarin
+*.apk
+*.ipa
+*.dSYM/
