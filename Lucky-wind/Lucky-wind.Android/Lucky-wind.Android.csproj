@@ -57,9 +57,13 @@
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <!-- Google Sign-In SDK para Android -->
+    <PackageReference Include="Xamarin.GooglePlayServices.Auth" Version="117.0.1.5" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Services\GoogleAuthService.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -67,6 +71,8 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
+    <!-- google-services.json: credenciales de Firebase para Android -->
+    <None Include="google-services.json" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\styles.xml" />

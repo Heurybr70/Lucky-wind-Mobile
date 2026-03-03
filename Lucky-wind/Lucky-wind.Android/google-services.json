@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "542081571847",
+    "project_id": "lucky-wind-5fdfb",
+    "storage_bucket": "lucky-wind-5fdfb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542081571847:android:5f5c0513606bea19559ea2",
+        "android_client_info": {
+          "package_name": "lucky_win.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "542081571847-ipk8v2d3ntmccj5eq6dq502imnnotunr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "lucky_win.com",
+            "certificate_hash": "aa404ca9ad293ef2bc43161f84e664adb2adeff6"
+          }
+        },
+        {
+          "client_id": "542081571847-f7ig9810dsjr0fssp1jeuutk5n0sdn0k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0HVIzBngcIFjexzLgLwYAvyS0i1nnwdU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "542081571847-f7ig9810dsjr0fssp1jeuutk5n0sdn0k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

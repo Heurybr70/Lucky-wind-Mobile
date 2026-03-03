@@ -53,7 +53,8 @@ namespace Lucky_wind.ViewModels
 
         /// <summary>Inicia el proceso de autenticación.</summary>
         public ICommand LoginCommand { get; }
-
+        /// <summary>Inicia sesión con Google.</summary>
+        public ICommand GoogleLoginCommand { get; }
         /// <summary>Navega hacia la pantalla de registro.</summary>
         public ICommand GoToRegisterCommand { get; }
 
@@ -123,6 +124,62 @@ namespace Lucky_wind.ViewModels
             {
                 if (IsBusy) return;
                 await _navigation.PushAsync(new RegisterPage());
+            });
+
+            GoogleLoginCommand = new Command(async () =>
+            {
+                if (IsBusy) return;
+
+                // Resolver la implementación de plataforma via DependencyService
+                var googleAuth = Xamarin.Forms.DependencyService.Get<Lucky_wind.Services.IGoogleAuthService>();
+                if (googleAuth == null)
+                {
+                    await Application.Current.MainPage
+                        .DisplayAlert("No disponible",
+                                      "Google Sign-In no está disponible en esta plataforma.",
+                                      "Ok");
+                    return;
+                }
+
+                IsBusy = true;
+
+                try
+                {
+                    var (idToken, googleError) = await googleAuth.GetGoogleIdTokenAsync();
+
+                    // El usuario canceló la selección de cuenta
+                    if (idToken == null && googleError == null)
+                        return;
+
+                    // Error en el flujo de Google
+                    if (googleError != null)
+                    {
+                        await Application.Current.MainPage
+                            .DisplayAlert("Error con Google", googleError, "Entendido");
+                        return;
+                    }
+
+                    var (success, error) = await _authService.SignInWithGoogleAsync(idToken);
+
+                    if (success)
+                    {
+                        Application.Current.MainPage =
+                            new NavigationPage(new DashboardPage())
+                            {
+                                BarBackgroundColor = Color.FromHex("#3211d4"),
+                                BarTextColor       = Color.White
+                            };
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage
+                            .DisplayAlert("Error con Google", error, "Entendido");
+                    }
+                }
+                finally
+                {
+                    IsBusy = false;
+                }
             });
         }
 

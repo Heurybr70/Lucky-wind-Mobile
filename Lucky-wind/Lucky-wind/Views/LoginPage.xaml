@@ -133,40 +133,36 @@
                              VerticalOptions="Center"/>
                 </Grid>
 
-                <!-- ── Botones sociales ── -->
-                <Grid ColumnDefinitions="*, *" ColumnSpacing="12" Margin="0,0,0,32">
-                    <Frame Grid.Column="0"
-                           BorderColor="#e2e8f0"
-                           CornerRadius="8"
-                           Padding="0"
-                           HasShadow="False"
-                           BackgroundColor="White">
-                        <StackLayout Orientation="Horizontal"
-                                     HorizontalOptions="Center"
-                                     Padding="8,12"
-                                     Spacing="8">
-                            <Label Text="G" FontSize="16" FontAttributes="Bold"
-                                   TextColor="#ea4335" VerticalOptions="Center"/>
-                            <Label Text="Google" FontSize="13"
-                                   TextColor="#0f172a" VerticalOptions="Center"/>
+                <!-- ── Botón Google ── -->
+                <Frame BorderColor="#e2e8f0"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BackgroundColor="White"
+                       Margin="0,0,0,32">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoogleLoginCommand}"/>
+                    </Frame.GestureRecognizers>
+                    <StackLayout Orientation="Horizontal"
+                                 HorizontalOptions="Center"
+                                 Padding="16,14"
+                                 Spacing="12">
+                        <!-- Logo Google – letras de colores -->
+                        <StackLayout Orientation="Horizontal" Spacing="0" VerticalOptions="Center">
+                            <Label Text="G" FontSize="18" FontAttributes="Bold" TextColor="#4285F4"/>
+                            <Label Text="o" FontSize="18" FontAttributes="Bold" TextColor="#EA4335"/>
+                            <Label Text="o" FontSize="18" FontAttributes="Bold" TextColor="#FBBC05"/>
+                            <Label Text="g" FontSize="18" FontAttributes="Bold" TextColor="#4285F4"/>
+                            <Label Text="l" FontSize="18" FontAttributes="Bold" TextColor="#34A853"/>
+                            <Label Text="e" FontSize="18" FontAttributes="Bold" TextColor="#EA4335"/>
                         </StackLayout>
-                    </Frame>
-                    <Frame Grid.Column="1"
-                           BorderColor="#e2e8f0"
-                           CornerRadius="8"
-                           Padding="0"
-                           HasShadow="False"
-                           BackgroundColor="White">
-                        <StackLayout Orientation="Horizontal"
-                                     HorizontalOptions="Center"
-                                     Padding="8,12"
-                                     Spacing="8">
-                            <Label Text="🍎" FontSize="16" VerticalOptions="Center"/>
-                            <Label Text="Apple" FontSize="13"
-                                   TextColor="#0f172a" VerticalOptions="Center"/>
-                        </StackLayout>
-                    </Frame>
-                </Grid>
+                        <Label Text="Continuar con Google"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#0f172a"
+                               VerticalOptions="Center"/>
+                    </StackLayout>
+                </Frame>
 
                 <!-- ── Enlace a Registro ── -->
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="4">

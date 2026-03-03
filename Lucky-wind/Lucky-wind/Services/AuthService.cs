@@ -13,17 +13,19 @@ namespace Lucky_wind.Services
     public class AuthService
     {
         // ──────────────────────────────────────────────────────────────────────────
-        // NOTA: Reemplaza esta clave con la Web API Key de tu proyecto en Firebase.
-        // Encuéntrala en: Firebase Console → Configuración del proyecto → General.
-        // En producción guárdala en un archivo de configuración seguro, no en código.
+        // Clave Web API del proyecto Firebase lucky-wind-5fdfb
         // ──────────────────────────────────────────────────────────────────────────
-        private const string FirebaseApiKey = "TU_WEB_API_KEY_AQUI";
+        private const string FirebaseApiKey = "AIzaSyC0HVIzBngcIFjexzLgLwYAvyS0i1nnwdU";
 
         private const string SignInUrl =
             "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + FirebaseApiKey;
 
         private const string SignUpUrl =
             "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=" + FirebaseApiKey;
+
+        // Endpoint para autenticación con proveedor OAuth (Google, etc.)
+        private const string SignInWithIdpUrl =
+            "https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key=" + FirebaseApiKey;
 
         private static readonly HttpClient _httpClient = new HttpClient();
 
@@ -123,7 +125,55 @@ namespace Lucky_wind.Services
                 return (false, $"Error inesperado: {ex.Message}");
             }
         }
+        // ─── Google Sign-In ──────────────────────────────────────────────────────────────
+        /// <summary>
+        /// Intercambia el Id Token de Google por una sesión de Firebase.
+        /// </summary>
+        public async Task<(bool Success, string Error)> SignInWithGoogleAsync(string googleIdToken)
+        {
+            try
+            {
+                var payload = new
+                {
+                    postBody             = $"id_token={googleIdToken}&providerId=google.com",
+                    requestUri           = "http://localhost",
+                    returnIdpCredential  = true,
+                    returnSecureToken    = true
+                };
 
+                string json    = JsonConvert.SerializeObject(payload);
+                var    content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response =
+                    await _httpClient.PostAsync(SignInWithIdpUrl, content).ConfigureAwait(false);
+                string responseBody =
+                    await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = JsonConvert.DeserializeObject<FirebaseAuthResponse>(responseBody);
+                    CurrentUser = new UserModel
+                    {
+                        Email        = result.email,
+                        IdToken      = result.idToken,
+                        LocalId      = result.localId,
+                        RefreshToken = result.refreshToken
+                    };
+                    return (true, null);
+                }
+
+                var errorResponse = JsonConvert.DeserializeObject<FirebaseErrorWrapper>(responseBody);
+                return (false, TranslateFirebaseError(errorResponse?.error?.message));
+            }
+            catch (HttpRequestException)
+            {
+                return (false, "Sin conexión a Internet. Verifica tu red e intenta de nuevo.");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Error inesperado: {ex.Message}");
+            }
+        }
         // ─── Logout ──────────────────────────────────────────────────────────────
         /// <summary>Cierra la sesión activa del usuario.</summary>
         public void Logout()
