@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:conv="clr-namespace:Lucky_wind.Converters"
+             x:Class="Lucky_wind.Views.EstadisticasPage"
+             BackgroundColor="{AppThemeBinding Light=#f6f6f8, Dark=#131022}"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:InverseBoolConverter x:Key="InverseBool"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <ScrollView x:Name="PageScroll"
+                    IsVisible="{Binding IsBusy, Converter={StaticResource InverseBool}}">
+            <StackLayout Spacing="0">
+
+                <!-- ── Header ── -->
+                <Grid x:Name="HeaderBar"
+                      BackgroundColor="{AppThemeBinding Light=#f6f6f8, Dark=#131022}"
+                      ColumnDefinitions="Auto, *"
+                      Padding="12,48,12,16">
+                    <Frame Grid.Column="0"
+                           HeightRequest="40"
+                           WidthRequest="40"
+                           CornerRadius="20"
+                           BackgroundColor="Transparent"
+                           BorderColor="Transparent"
+                           HasShadow="False"
+                           Padding="0">
+                        <Label Text="←"
+                               FontSize="22"
+                               TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnBackTapped"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Frame>
+                    <Label Grid.Column="1"
+                           Text="Estadísticas"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
+                           VerticalOptions="Center"
+                           Margin="8,0,0,0"/>
+                </Grid>
+
+                <!-- ── Métricas principales ── -->
+                <Grid x:Name="MetricsGrid"
+                      ColumnDefinitions="*, *"
+                      RowDefinitions="Auto"
+                      ColumnSpacing="12"
+                      Padding="16,4,16,0">
+
+                    <!-- Total Sorteos -->
+                    <Frame Grid.Column="0"
+                           CornerRadius="16"
+                           BackgroundColor="{AppThemeBinding Light=White, Dark=#1e1535}"
+                           BorderColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
+                           HasShadow="False"
+                           Padding="16">
+                        <StackLayout Spacing="6">
+                            <StackLayout Orientation="Horizontal" Spacing="8">
+                                <Label Text="🎟"
+                                       FontSize="18"
+                                       VerticalOptions="Center"/>
+                                <Label Text="Total Sorteos"
+                                       FontSize="13"
+                                       TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"
+                                       VerticalOptions="Center"/>
+                            </StackLayout>
+                            <Label Text="{Binding TotalRaffles}"
+                                   FontSize="36"
+                                   FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"/>
+                            <Label Text="{Binding ThisMonthText}"
+                                   FontSize="11"
+                                   TextColor="#16a34a"
+                                   FontAttributes="Bold"/>
+                        </StackLayout>
+                    </Frame>
+
+                    <!-- Win Rate -->
+                    <Frame Grid.Column="1"
+                           CornerRadius="16"
+                           BackgroundColor="{AppThemeBinding Light=White, Dark=#1e1535}"
+                           BorderColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
+                           HasShadow="False"
+                           Padding="16">
+                        <StackLayout Spacing="6">
+                            <StackLayout Orientation="Horizontal" Spacing="8">
+                                <Label Text="🏆"
+                                       FontSize="18"
+                                       VerticalOptions="Center"/>
+                                <Label Text="Win Rate"
+                                       FontSize="13"
+                                       TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"
+                                       VerticalOptions="Center"/>
+                            </StackLayout>
+                            <Label Text="{Binding WinRateText}"
+                                   FontSize="36"
+                                   FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"/>
+                            <!-- Barra de progreso win rate -->
+                            <Grid HeightRequest="6">
+                                <BoxView BackgroundColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
+                                         CornerRadius="3"
+                                         HeightRequest="6"/>
+                                <BoxView x:Name="WinRateBar"
+                                         BackgroundColor="#3211d4"
+                                         CornerRadius="3"
+                                         HeightRequest="6"
+                                         HorizontalOptions="Start"
+                                         WidthRequest="0"/>
+                            </Grid>
+                        </StackLayout>
+                    </Frame>
+                </Grid>
+
+                <!-- ── Actividad Mensual ── -->
+                <Frame x:Name="ChartCard"
+                       Margin="16,16,16,0"
+                       CornerRadius="16"
+                       BackgroundColor="{AppThemeBinding Light=White, Dark=#1e1535}"
+                       BorderColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
+                       HasShadow="False"
+                       Padding="20">
+                    <StackLayout Spacing="0">
+
+                        <!-- Título y crecimiento -->
+                        <Grid ColumnDefinitions="*, Auto" Margin="0,0,0,20">
+                            <StackLayout Grid.Column="0" Spacing="2">
+                                <Label Text="Actividad Mensual"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"/>
+                                <Label Text="Participación últimos 6 meses"
+                                       FontSize="12"
+                                       TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"/>
+                            </StackLayout>
+                            <StackLayout Grid.Column="1" HorizontalOptions="End" Spacing="2">
+                                <Label Text="{Binding GrowthText}"
+                                       FontSize="24"
+                                       FontAttributes="Bold"
+                                       TextColor="#3211d4"
+                                       HorizontalOptions="End"/>
+                                <Label Text="CRECIMIENTO"
+                                       FontSize="9"
+                                       FontAttributes="Bold"
+                                       TextColor="#94a3b8"
+                                       CharacterSpacing="0.5"
+                                       HorizontalOptions="End"/>
+                            </StackLayout>
+                        </Grid>
+
+                        <!-- Gráfico de barras -->
+                        <Grid x:Name="BarChart"
+                              HeightRequest="140"
+                              ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Las barras se crean dinámicamente en code-behind -->
+                            <!-- Placeholder inicial vacío -->
+                            <BoxView Grid.Column="0" BackgroundColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
+                                     CornerRadius="4" WidthRequest="20" HeightRequest="8"
+                                     VerticalOptions="End" HorizontalOptions="Center" Opacity="0.3"/>
+                            <BoxView Grid.Column="1" BackgroundColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
+                                     CornerRadius="4" WidthRequest="20" HeightRequest="8"
+                                     VerticalOptions="End" HorizontalOptions="Center" Opacity="0.3"/>
+                            <BoxView Grid.Column="2" BackgroundColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
+                                     CornerRadius="4" WidthRequest="20" HeightRequest="8"
+                                     VerticalOptions="End" HorizontalOptions="Center" Opacity="0.3"/>
+                            <BoxView Grid.Column="3" BackgroundColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
+                                     CornerRadius="4" WidthRequest="20" HeightRequest="8"
+                                     VerticalOptions="End" HorizontalOptions="Center" Opacity="0.3"/>
+                            <BoxView Grid.Column="4" BackgroundColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
+                                     CornerRadius="4" WidthRequest="20" HeightRequest="8"
+                                     VerticalOptions="End" HorizontalOptions="Center" Opacity="0.3"/>
+                            <BoxView Grid.Column="5" BackgroundColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
+                                     CornerRadius="4" WidthRequest="20" HeightRequest="8"
+                                     VerticalOptions="End" HorizontalOptions="Center" Opacity="0.3"/>
+                        </Grid>
+
+                        <!-- Etiquetas del eje X (meses) -->
+                        <Grid x:Name="MonthLabels"
+                              Margin="0,8,0,0"
+                              ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <!-- Etiquetas insertadas desde code-behind -->
+                        </Grid>
+                    </StackLayout>
+                </Frame>
+
+                <!-- ── Distribución de Premios ── -->
+                <Frame x:Name="DistCard"
+                       Margin="16,16,16,32"
+                       CornerRadius="16"
+                       BackgroundColor="{AppThemeBinding Light=White, Dark=#1e1535}"
+                       BorderColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
+                       HasShadow="False"
+                       Padding="20">
+                    <StackLayout Spacing="16">
+                        <Label Text="Distribución de Premios"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"/>
+
+                        <!-- Efectivo -->
+                        <StackLayout Spacing="6">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Label Grid.Column="0"
+                                       Text="Efectivo"
+                                       FontSize="13"
+                                       TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"/>
+                                <Label Grid.Column="1"
+                                       Text="{Binding CashPercentText}"
+                                       FontSize="13"
+                                       FontAttributes="Bold"
+                                       TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"/>
+                            </Grid>
+                            <Grid HeightRequest="8">
+                                <BoxView BackgroundColor="{AppThemeBinding Light=#f1f5f9, Dark=#131022}"
+                                         CornerRadius="4" HeightRequest="8"/>
+                                <BoxView x:Name="CashBar"
+                                         BackgroundColor="#3211d4"
+                                         CornerRadius="4"
+                                         HeightRequest="8"
+                                         HorizontalOptions="Start"
+                                         WidthRequest="0"/>
+                            </Grid>
+                        </StackLayout>
+
+                        <!-- Electrónicos -->
+                        <StackLayout Spacing="6">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Label Grid.Column="0"
+                                       Text="Electrónicos"
+                                       FontSize="13"
+                                       TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"/>
+                                <Label Grid.Column="1"
+                                       Text="{Binding TechPercentText}"
+                                       FontSize="13"
+                                       FontAttributes="Bold"
+                                       TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"/>
+                            </Grid>
+                            <Grid HeightRequest="8">
+                                <BoxView BackgroundColor="{AppThemeBinding Light=#f1f5f9, Dark=#131022}"
+                                         CornerRadius="4" HeightRequest="8"/>
+                                <BoxView x:Name="TechBar"
+                                         BackgroundColor="#7c3aed"
+                                         CornerRadius="4"
+                                         HeightRequest="8"
+                                         HorizontalOptions="Start"
+                                         WidthRequest="0"/>
+                            </Grid>
+                        </StackLayout>
+
+                        <!-- Otros -->
+                        <StackLayout Spacing="6">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Label Grid.Column="0"
+                                       Text="Otros"
+                                       FontSize="13"
+                                       TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"/>
+                                <Label Grid.Column="1"
+                                       Text="{Binding OtherPercentText}"
+                                       FontSize="13"
+                                       FontAttributes="Bold"
+                                       TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"/>
+                            </Grid>
+                            <Grid HeightRequest="8">
+                                <BoxView BackgroundColor="{AppThemeBinding Light=#f1f5f9, Dark=#131022}"
+                                         CornerRadius="4" HeightRequest="8"/>
+                                <BoxView x:Name="OtherBar"
+                                         BackgroundColor="#a5b4fc"
+                                         CornerRadius="4"
+                                         HeightRequest="8"
+                                         HorizontalOptions="Start"
+                                         WidthRequest="0"/>
+                            </Grid>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+
+            </StackLayout>
+        </ScrollView>
+
+        <!-- ── Overlay de carga ── -->
+        <StackLayout IsVisible="{Binding IsBusy}"
+                     VerticalOptions="Center"
+                     HorizontalOptions="Center"
+                     Spacing="12">
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               Color="#3211d4"
+                               HeightRequest="48"
+                               WidthRequest="48"/>
+            <Label Text="Calculando estadísticas..."
+                   FontSize="13"
+                   TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"
+                   HorizontalOptions="Center"/>
+        </StackLayout>
+    </Grid>
+</ContentPage>

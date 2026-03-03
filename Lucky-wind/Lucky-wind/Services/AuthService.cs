@@ -174,6 +174,41 @@ namespace Lucky_wind.Services
                 return (false, $"Error inesperado: {ex.Message}");
             }
         }
+        // ─── Refresh token ────────────────────────────────────────────────────────
+        /// <summary>
+        /// Renueva el IdToken usando el RefreshToken. Firebase IdTokens expiran en 1 hora.
+        /// Llama a este método antes de cualquier request a Firestore.
+        /// </summary>
+        public static async Task<bool> RefreshTokenIfNeededAsync()
+        {
+            if (CurrentUser == null) return false;
+            if (string.IsNullOrEmpty(CurrentUser.RefreshToken)) return false;
+
+            try
+            {
+                const string url = "https://securetoken.googleapis.com/v1/token?key=" + FirebaseApiKey;
+                var payload = new { grant_type = "refresh_token", refresh_token = CurrentUser.RefreshToken };
+                string json = JsonConvert.SerializeObject(payload);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PostAsync(url, content).ConfigureAwait(false);
+                string body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                if (!response.IsSuccessStatusCode) return false;
+
+                var result = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(body);
+                string newIdToken      = result["id_token"]?.ToString();
+                string newRefreshToken = result["refresh_token"]?.ToString();
+
+                if (string.IsNullOrEmpty(newIdToken)) return false;
+
+                CurrentUser.IdToken      = newIdToken;
+                CurrentUser.RefreshToken = newRefreshToken ?? CurrentUser.RefreshToken;
+                return true;
+            }
+            catch { return false; }
+        }
+
         // ─── Logout ──────────────────────────────────────────────────────────────
         /// <summary>Cierra la sesión activa del usuario.</summary>
         public void Logout()

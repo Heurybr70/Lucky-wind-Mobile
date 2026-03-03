@@ -13,7 +13,7 @@ namespace Lucky_wind.Views
         public DashboardPage()
         {
             InitializeComponent();
-            BindingContext = new DashboardViewModel();
+            BindingContext = new DashboardViewModel(Navigation);
         }
 
         protected override async void OnAppearing()

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:conv="clr-namespace:Lucky_wind.Converters"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             x:Class="Lucky_wind.Views.RegisterSorteoPage"
+             BackgroundColor="{AppThemeBinding Light=#f6f6f8, Dark=#131022}"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:InverseBoolConverter x:Key="InverseBool"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <!-- ── Formulario principal ── -->
+        <ScrollView x:Name="FormContainer"
+                    IsVisible="{Binding IsBusy, Converter={StaticResource InverseBool}}">
+            <StackLayout Spacing="0">
+
+                <!-- ── Barra de navegación ── -->
+                <Grid BackgroundColor="{AppThemeBinding Light=#f6f6f8, Dark=#131022}"
+                      ColumnDefinitions="Auto, *"
+                      Padding="12,48,12,12">
+                    <Frame Grid.Column="0"
+                           HeightRequest="40"
+                           WidthRequest="40"
+                           CornerRadius="20"
+                           BackgroundColor="Transparent"
+                           BorderColor="Transparent"
+                           HasShadow="False"
+                           Padding="0">
+                        <Label Text="←"
+                               FontSize="22"
+                               TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding CancelCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Frame>
+                    <Label Grid.Column="1"
+                           Text="Registrar Sorteo"
+                           FontSize="17"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
+                           VerticalOptions="Center"
+                           Margin="8,0,0,0"/>
+                </Grid>
+
+                <!-- ── Encabezado ── -->
+                <StackLayout Padding="28,4,28,24" Spacing="6">
+                    <Label Text="Nuevo Sorteo"
+                           FontSize="32"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"/>
+                    <Label Text="Completa los detalles para crear tu próximo evento de rifa."
+                           FontSize="13"
+                           TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"/>
+                </StackLayout>
+
+                <!-- ── Campos del formulario ── -->
+                <StackLayout Padding="28,0,28,40" Spacing="20">
+
+                    <!-- Nombre del sorteo -->
+                    <StackLayout Spacing="6">
+                        <Label Text="NOMBRE DEL SORTEO"
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               TextColor="#94a3b8"
+                               CharacterSpacing="1"/>
+                        <Frame BorderColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
+                               CornerRadius="12"
+                               Padding="14,0"
+                               HasShadow="False"
+                               BackgroundColor="{AppThemeBinding Light=White, Dark=#1e1535}"
+                               HeightRequest="52">
+                            <Entry Placeholder="Ej. Gran Rifa de Verano"
+                                   Text="{Binding RaffleName}"
+                                   BackgroundColor="Transparent"
+                                   TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
+                                   PlaceholderColor="#cbd5e1"
+                                   FontSize="15"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                        <Label Text="{Binding NameError}"
+                               IsVisible="{Binding HasNameError}"
+                               FontSize="11"
+                               TextColor="#ef4444"
+                               Margin="4,0,0,0"/>
+                    </StackLayout>
+
+                    <!-- Fecha del sorteo -->
+                    <StackLayout Spacing="6">
+                        <Label Text="FECHA DEL SORTEO"
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               TextColor="#94a3b8"
+                               CharacterSpacing="1"/>
+                        <Frame BorderColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
+                               CornerRadius="12"
+                               Padding="14,0"
+                               HasShadow="False"
+                               BackgroundColor="{AppThemeBinding Light=White, Dark=#1e1535}"
+                               HeightRequest="52">
+                            <DatePicker Date="{Binding RaffleDate}"
+                                        MinimumDate="{x:Static sys:DateTime.Today}"
+                                        BackgroundColor="Transparent"
+                                        TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
+                                        FontSize="15"
+                                        Format="dd/MM/yyyy"
+                                        VerticalOptions="Center"/>
+                        </Frame>
+                        <Label Text="{Binding DateError}"
+                               IsVisible="{Binding HasDateError}"
+                               FontSize="11"
+                               TextColor="#ef4444"
+                               Margin="4,0,0,0"/>
+                    </StackLayout>
+
+                    <!-- Número de participantes -->
+                    <StackLayout Spacing="6">
+                        <Label Text="NRO. DE PARTICIPANTES"
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               TextColor="#94a3b8"
+                               CharacterSpacing="1"/>
+                        <Frame BorderColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
+                               CornerRadius="12"
+                               Padding="14,0"
+                               HasShadow="False"
+                               BackgroundColor="{AppThemeBinding Light=White, Dark=#1e1535}"
+                               HeightRequest="52">
+                            <Entry Placeholder="Ej. 100"
+                                   Text="{Binding ParticipantsCountText}"
+                                   Keyboard="Numeric"
+                                   BackgroundColor="Transparent"
+                                   TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
+                                   PlaceholderColor="#cbd5e1"
+                                   FontSize="15"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                        <Label Text="{Binding ParticipantsError}"
+                               IsVisible="{Binding HasParticipantsError}"
+                               FontSize="11"
+                               TextColor="#ef4444"
+                               Margin="4,0,0,0"/>
+                    </StackLayout>
+
+                    <!-- Descripción del premio -->
+                    <StackLayout Spacing="6">
+                        <Label Text="DESCRIPCIÓN DEL PREMIO"
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               TextColor="#94a3b8"
+                               CharacterSpacing="1"/>
+                        <Frame BorderColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
+                               CornerRadius="12"
+                               Padding="14,8"
+                               HasShadow="False"
+                               BackgroundColor="{AppThemeBinding Light=White, Dark=#1e1535}">
+                            <Editor Placeholder="Describe los premios que se entregarán..."
+                                    Text="{Binding PrizeDescription}"
+                                    BackgroundColor="Transparent"
+                                    TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
+                                    PlaceholderColor="#cbd5e1"
+                                    FontSize="15"
+                                    HeightRequest="100"
+                                    AutoSize="TextChanges"/>
+                        </Frame>
+                        <Label Text="{Binding PrizeError}"
+                               IsVisible="{Binding HasPrizeError}"
+                               FontSize="11"
+                               TextColor="#ef4444"
+                               Margin="4,0,0,0"/>
+                    </StackLayout>
+
+                    <!-- ── Tarjeta de consejo ── -->
+                    <Frame CornerRadius="16"
+                           BackgroundColor="{AppThemeBinding Light=#f3f0ff, Dark=#1e1535}"
+                           BorderColor="#3211d420"
+                           HasShadow="False"
+                           Padding="16">
+                        <StackLayout Orientation="Horizontal" Spacing="14">
+                            <Frame HeightRequest="44"
+                                   WidthRequest="44"
+                                   CornerRadius="22"
+                                   BackgroundColor="#3211d4"
+                                   BorderColor="Transparent"
+                                   HasShadow="False"
+                                   Padding="0">
+                                <Label Text="✨"
+                                       FontSize="20"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Frame>
+                            <StackLayout Spacing="2" VerticalOptions="Center">
+                                <Label Text="Consejo"
+                                       FontSize="13"
+                                       FontAttributes="Bold"
+                                       TextColor="#3211d4"/>
+                                <Label Text="Un nombre llamativo atrae más participantes."
+                                       FontSize="12"
+                                       TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+
+                    <!-- ── Botones de acción ── -->
+                    <Button Text="Crear Sorteo  🎉"
+                            BackgroundColor="#3211d4"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            CornerRadius="12"
+                            HeightRequest="54"
+                            Margin="0,8,0,0"
+                            Command="{Binding CreateCommand}"/>
+
+                    <Button Text="Cancelar"
+                            BackgroundColor="Transparent"
+                            TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"
+                            FontSize="14"
+                            HeightRequest="44"
+                            BorderWidth="0"
+                            Command="{Binding CancelCommand}"/>
+
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+
+        <!-- ── Overlay de carga ── -->
+        <StackLayout IsVisible="{Binding IsBusy}"
+                     VerticalOptions="Center"
+                     HorizontalOptions="Center"
+                     Spacing="12">
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               Color="#3211d4"
+                               HeightRequest="48"
+                               WidthRequest="48"/>
+            <Label Text="Guardando sorteo..."
+                   FontSize="13"
+                   TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"
+                   HorizontalOptions="Center"/>
+        </StackLayout>
+    </Grid>
+</ContentPage>

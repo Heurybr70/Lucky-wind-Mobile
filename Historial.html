@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3211d4",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131022",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Historial - Lucky-Win</title>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<div class="relative flex min-h-screen w-full flex-col max-w-md mx-auto bg-white dark:bg-background-dark shadow-xl">
+<!-- Header -->
+<header class="sticky top-0 z-10 flex items-center bg-white dark:bg-background-dark p-4 border-b border-slate-100 dark:border-slate-800">
+<button class="flex size-10 items-center justify-center rounded-full hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back</span>
+</button>
+<h1 class="ml-2 text-xl font-bold tracking-tight">Historial</h1>
+</header>
+<!-- Tabs Navigation -->
+<nav class="bg-white dark:bg-background-dark px-4">
+<div class="flex border-b border-slate-100 dark:border-slate-800">
+<button class="flex-1 py-4 text-sm font-semibold text-slate-400 dark:text-slate-500 border-b-2 border-transparent hover:text-primary">
+                    Activos
+                </button>
+<button class="flex-1 py-4 text-sm font-semibold text-primary border-b-2 border-primary">
+                    Finalizados
+                </button>
+</div>
+</nav>
+<!-- Scrollable List Container -->
+<main class="flex-1 overflow-y-auto px-4 py-6 space-y-2">
+<!-- History Item -->
+<div class="group flex items-center gap-4 bg-white dark:bg-background-dark py-4 transition-all border-b border-slate-50 dark:border-slate-900 last:border-0">
+<div class="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+<span class="material-symbols-outlined">emoji_events</span>
+</div>
+<div class="flex flex-1 flex-col">
+<h3 class="text-base font-semibold leading-tight text-slate-900 dark:text-slate-100">Sorteo Especial iPhone 15 Pro</h3>
+<div class="mt-1 flex flex-col gap-0.5">
+<p class="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1">
+<span class="font-medium text-slate-700 dark:text-slate-300">Ganador:</span> Carlos Javier Méndez
+                        </p>
+<p class="text-xs text-slate-400 dark:text-slate-500">12 de Octubre, 2023</p>
+</div>
+</div>
+<button class="text-slate-300 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+<!-- History Item -->
+<div class="group flex items-center gap-4 bg-white dark:bg-background-dark py-4 transition-all border-b border-slate-50 dark:border-slate-900 last:border-0">
+<div class="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+<span class="material-symbols-outlined">laptop_mac</span>
+</div>
+<div class="flex flex-1 flex-col">
+<h3 class="text-base font-semibold leading-tight text-slate-900 dark:text-slate-100">MacBook Air M2 Silver</h3>
+<div class="mt-1 flex flex-col gap-0.5">
+<p class="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1">
+<span class="font-medium text-slate-700 dark:text-slate-300">Ganador:</span> Lucía Fernández
+                        </p>
+<p class="text-xs text-slate-400 dark:text-slate-500">28 de Septiembre, 2023</p>
+</div>
+</div>
+<button class="text-slate-300 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+<!-- History Item -->
+<div class="group flex items-center gap-4 bg-white dark:bg-background-dark py-4 transition-all border-b border-slate-50 dark:border-slate-900 last:border-0">
+<div class="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+<span class="material-symbols-outlined">directions_car</span>
+</div>
+<div class="flex flex-1 flex-col">
+<h3 class="text-base font-semibold leading-tight text-slate-900 dark:text-slate-100">Rifa Automotriz: Tesla Model 3</h3>
+<div class="mt-1 flex flex-col gap-0.5">
+<p class="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1">
+<span class="font-medium text-slate-700 dark:text-slate-300">Ganador:</span> Roberto Gómez Soto
+                        </p>
+<p class="text-xs text-slate-400 dark:text-slate-500">15 de Septiembre, 2023</p>
+</div>
+</div>
+<button class="text-slate-300 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+<!-- History Item -->
+<div class="group flex items-center gap-4 bg-white dark:bg-background-dark py-4 transition-all border-b border-slate-50 dark:border-slate-900 last:border-0">
+<div class="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+<span class="material-symbols-outlined">headphones</span>
+</div>
+<div class="flex flex-1 flex-col">
+<h3 class="text-base font-semibold leading-tight text-slate-900 dark:text-slate-100">AirPods Max Sky Blue</h3>
+<div class="mt-1 flex flex-col gap-0.5">
+<p class="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1">
+<span class="font-medium text-slate-700 dark:text-slate-300">Ganador:</span> Elena Martínez
+                        </p>
+<p class="text-xs text-slate-400 dark:text-slate-500">02 de Septiembre, 2023</p>
+</div>
+</div>
+<button class="text-slate-300 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+<!-- History Item -->
+<div class="group flex items-center gap-4 bg-white dark:bg-background-dark py-4 transition-all border-b border-slate-50 dark:border-slate-900 last:border-0">
+<div class="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+<span class="material-symbols-outlined">watch</span>
+</div>
+<div class="flex flex-1 flex-col">
+<h3 class="text-base font-semibold leading-tight text-slate-900 dark:text-slate-100">Apple Watch Series 9</h3>
+<div class="mt-1 flex flex-col gap-0.5">
+<p class="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1">
+<span class="font-medium text-slate-700 dark:text-slate-300">Ganador:</span> Marcos Ruiz
+                        </p>
+<p class="text-xs text-slate-400 dark:text-slate-500">20 de Agosto, 2023</p>
+</div>
+</div>
+<button class="text-slate-300 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<footer class="mt-auto border-t border-slate-100 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="flex justify-around items-center px-4 py-3">
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-medium uppercase tracking-wider">Inicio</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">confirmation_number</span>
+<span class="text-[10px] font-medium uppercase tracking-wider">Rifas</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">history</span>
+<span class="text-[10px] font-medium uppercase tracking-wider">Historial</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-medium uppercase tracking-wider">Perfil</span>
+</a>
+</div>
+</footer>
+</div>
+</body></html>

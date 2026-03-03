@@ -12,6 +12,7 @@ namespace Lucky_wind.ViewModels
     public class DashboardViewModel : BaseViewModel
     {
         private readonly AuthService _authService;
+        private readonly INavigation _navigation;
 
         // ─── Propiedades ─────────────────────────────────────────────────────────
         private string _userEmail;
@@ -42,8 +43,9 @@ namespace Lucky_wind.ViewModels
         public ICommand LogoutCommand { get; }
 
         // ─── Constructor ─────────────────────────────────────────────────────────
-        public DashboardViewModel()
+        public DashboardViewModel(INavigation navigation)
         {
+            _navigation  = navigation;
             _authService = new AuthService();
             Title        = "Menú Principal";
 
@@ -51,28 +53,13 @@ namespace Lucky_wind.ViewModels
             UserEmail = AuthService.CurrentUser?.Email ?? "Usuario";
 
             RegisterSorteoCommand = new Command(async () =>
-            {
-                await Application.Current.MainPage
-                    .DisplayAlert("Registrar Sorteo",
-                                  "Esta funcionalidad estará disponible próximamente.",
-                                  "Aceptar");
-            });
+                await _navigation.PushAsync(new RegisterSorteoPage()));
 
             VerHistorialCommand = new Command(async () =>
-            {
-                await Application.Current.MainPage
-                    .DisplayAlert("Ver Historial",
-                                  "Esta funcionalidad estará disponible próximamente.",
-                                  "Aceptar");
-            });
+                await _navigation.PushAsync(new HistorialPage()));
 
             AnalisisCommand = new Command(async () =>
-            {
-                await Application.Current.MainPage
-                    .DisplayAlert("Análisis Estadístico",
-                                  "Esta funcionalidad estará disponible próximamente.",
-                                  "Aceptar");
-            });
+                await _navigation.PushAsync(new EstadisticasPage()));
 
             ToggleThemeCommand = new Command(() =>
             {

@@ -1,42 +1,10 @@
-﻿<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="108dp"
-    android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
-
-    <!-- Circulo de fondo violeta (bezier curves, sin arcos) -->
-    <path
-        android:fillColor="#3211d4"
-        android:pathData="M54,14 C76.1,14 94,31.9 94,54 C94,76.1 76.1,94 54,94 C31.9,94 14,76.1 14,54 C14,31.9 31.9,14 54,14 Z"/>
-
-    <!-- Trofeo: base -->
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M43,72 L65,72 L62,65 L46,65 Z"/>
-
-    <!-- Trofeo: columna central -->
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M50,65 L58,65 L58,58 L50,58 Z"/>
-
-    <!-- Trofeo: copa -->
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M40,38 L40,56 C40,62 47,64 54,64 C61,64 68,62 68,56 L68,38 Z"/>
-
-    <!-- Trofeo: asa izquierda -->
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M40,40 C35,40 30,44 30,49 C30,54 35,58 40,58 L40,54 C37,54 34,52 34,49 C34,46 37,44 40,44 Z"/>
-
-    <!-- Trofeo: asa derecha -->
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M68,40 C73,40 78,44 78,49 C78,54 73,58 68,58 L68,54 C71,54 74,52 74,49 C74,46 71,44 68,44 Z"/>
-
-    <!-- Estrella dentro de la copa -->
-    <path
-        android:fillColor="#FFD700"
-        android:pathData="M54,42 L55.8,47.6 L61.7,47.6 L57,51 L58.8,56.6 L54,53.2 L49.2,56.6 L51,51 L46.3,47.6 L52.2,47.6 Z"/>
-
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#3211d4" android:pathData="M54,14 C76.1,14 94,31.9 94,54 C94,76.1 76.1,94 54,94 C31.9,94 14,76.1 14,54 C14,31.9 31.9,14 54,14 Z"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M43,72 L65,72 L62,65 L46,65 Z"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M50,65 L58,65 L58,58 L50,58 Z"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M40,38 L40,56 C40,62 47,64 54,64 C61,64 68,62 68,56 L68,38 Z"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M40,40 C35,40 30,44 30,49 C30,54 35,58 40,58 L40,54 C37,54 34,52 34,49 C34,46 37,44 40,44 Z"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M68,40 C73,40 78,44 78,49 C78,54 73,58 68,58 L68,54 C71,54 74,52 74,49 C74,46 71,44 68,44 Z"/>
+    <path android:fillColor="#FFD700" android:pathData="M54,42 L55.8,47.6 L61.7,47.6 L57,51 L58.8,56.6 L54,53.2 L49.2,56.6 L51,51 L46.3,47.6 L52.2,47.6 Z"/>
 </vector>
