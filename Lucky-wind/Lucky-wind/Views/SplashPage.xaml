@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:Lucky_wind.ViewModels"
              x:Class="Lucky_wind.Views.SplashPage"
-             BackgroundColor="#f6f6f8"
+             BackgroundColor="{AppThemeBinding Light=#f6f6f8, Dark=#131022}"
              NavigationPage.HasNavigationBar="False">
-
-    <!-- El BindingContext se asigna en el constructor del code‑behind -->
 
     <Grid RowDefinitions="*,Auto,Auto">
 
@@ -22,62 +19,67 @@
                    HeightRequest="128"
                    WidthRequest="128"
                    CornerRadius="64"
-                   BackgroundColor="#ede9fc"
-                   BorderColor="#c4b5fd"
+                   BackgroundColor="{AppThemeBinding Light=#ede9fc, Dark=#2d1f6e}"
+                   BorderColor="{AppThemeBinding Light=#c4b5fd, Dark=#4c3bbf}"
                    IsClippedToBounds="True"
                    HorizontalOptions="Center"
                    HasShadow="False"
                    Padding="0">
-                <Label Text="★"
-                       FontSize="56"
+                <Label Text="🏆"
+                       FontSize="52"
                        HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       TextColor="#3211d4"/>
+                       VerticalOptions="Center"/>
             </Frame>
 
             <!-- Título principal -->
-            <Label Text="Lucky-Win"
-                   FontSize="40"
+            <Label x:Name="TitleLabel"
+                   Text="Participa y Gana"
+                   FontSize="36"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"
-                   TextColor="#0f172a"
+                   TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
                    Margin="0,8,0,0"/>
 
             <!-- Línea decorativa -->
-            <BoxView Color="#3211d4"
-                     Opacity="0.3"
-                     HeightRequest="1"
-                     WidthRequest="48"
+            <BoxView x:Name="DividerBox"
+                     Color="#3211d4"
+                     Opacity="0.4"
+                     HeightRequest="2"
+                     WidthRequest="56"
                      HorizontalOptions="Center"
+                     CornerRadius="1"
                      Margin="0,4"/>
 
             <!-- Tagline -->
-            <Label Text="Simple. Clean. Elegant."
-                   FontSize="13"
+            <Label x:Name="TaglineLabel"
+                   Text="Tu suerte comienza aquí."
+                   FontSize="14"
                    HorizontalOptions="Center"
-                   TextColor="#64748b"
+                   TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"
                    FontAttributes="Italic"/>
         </StackLayout>
 
         <!-- ── Versión ── -->
-        <Label Grid.Row="1"
-               Text="Version 1.0.0"
+        <Label x:Name="VersionLabel"
+               Grid.Row="1"
+               Text="Versión 1.0.0"
                FontSize="10"
                HorizontalOptions="Center"
-               TextColor="#94a3b8"
+               TextColor="{AppThemeBinding Light=#94a3b8, Dark=#64748b}"
                Margin="0,0,0,12"/>
 
-        <!-- ── Botón "Comenzar" con estilo outlined ── -->
-        <Frame Grid.Row="2"
+        <!-- ── Botón "Comenzar" ── -->
+        <Frame x:Name="StartFrame"
+               Grid.Row="2"
                Margin="32,0,32,48"
                CornerRadius="8"
-               BorderColor="#c4b5fd"
+               BorderColor="{AppThemeBinding Light=#c4b5fd, Dark=#4c3bbf}"
                BackgroundColor="Transparent"
                HasShadow="False"
                Padding="0">
-            <Button Text="Comenzar  →"
+            <Button Text="Comenzar 🤑"
                     BackgroundColor="Transparent"
-                    TextColor="#0f172a"
+                    TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
                     FontSize="15"
                     HeightRequest="52"
                     Command="{Binding StartCommand}"/>

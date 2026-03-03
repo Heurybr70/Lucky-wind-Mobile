@@ -4,7 +4,7 @@
              xmlns:vm="clr-namespace:Lucky_wind.ViewModels"
              xmlns:conv="clr-namespace:Lucky_wind.Converters"
              x:Class="Lucky_wind.Views.LoginPage"
-             BackgroundColor="#f6f6f8"
+             BackgroundColor="{AppThemeBinding Light=#f6f6f8, Dark=#131022}"
              NavigationPage.HasNavigationBar="False">
 
     <ContentPage.Resources>
@@ -17,37 +17,37 @@
     <Grid>
 
         <!-- ── Formulario principal ── -->
-        <ScrollView IsVisible="{Binding IsBusy, Converter={StaticResource InverseBool}}">
+        <ScrollView x:Name="FormContainer"
+                    IsVisible="{Binding IsBusy, Converter={StaticResource InverseBool}}">
             <StackLayout Padding="28,64,28,40" Spacing="0">
 
                 <!-- Logo y título -->
                 <Frame HeightRequest="64"
                        WidthRequest="64"
                        CornerRadius="14"
-                       BackgroundColor="#ede9fc"
+                       BackgroundColor="{AppThemeBinding Light=#ede9fc, Dark=#2d1f6e}"
                        BorderColor="Transparent"
                        IsClippedToBounds="True"
                        HorizontalOptions="Center"
                        HasShadow="False"
                        Padding="0"
                        Margin="0,0,0,20">
-                    <Label Text="★"
+                    <Label Text="🏆"
                            FontSize="32"
                            HorizontalOptions="Center"
-                           VerticalOptions="Center"
-                           TextColor="#3211d4"/>
+                           VerticalOptions="Center"/>
                 </Frame>
 
-                <Label Text="Lucky-Win"
-                       FontSize="28"
+                <Label Text="Participa y Gana"
+                       FontSize="26"
                        FontAttributes="Bold"
                        HorizontalOptions="Center"
-                       TextColor="#0f172a"/>
+                       TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"/>
 
-                <Label Text="Bienvenido de nuevo. Introduce tus datos."
+                <Label Text="Bienvenido de nuevo. Ingresa tus datos."
                        FontSize="13"
                        HorizontalOptions="Center"
-                       TextColor="#64748b"
+                       TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"
                        Margin="0,6,0,36"/>
 
                 <!-- ── Campo Email ── -->
@@ -61,10 +61,10 @@
                        Keyboard="Email"
                        Text="{Binding Email}"
                        BackgroundColor="Transparent"
-                       TextColor="#0f172a"
+                       TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
                        PlaceholderColor="#cbd5e1"
                        FontSize="15"/>
-                <BoxView Color="#e2e8f0" HeightRequest="1" Margin="0,0,0,24"/>
+                <BoxView Color="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}" HeightRequest="1" Margin="0,0,0,24"/>
 
                 <!-- ── Campo Contraseña ── -->
                 <Grid ColumnDefinitions="*, Auto" Margin="0,0,0,4">
@@ -88,7 +88,7 @@
                            Text="{Binding Password}"
                            IsPassword="{Binding IsPasswordHidden}"
                            BackgroundColor="Transparent"
-                           TextColor="#0f172a"
+                           TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
                            PlaceholderColor="#cbd5e1"
                            FontSize="15"/>
                     <Label Grid.Column="1"
@@ -102,7 +102,7 @@
                         </Label.GestureRecognizers>
                     </Label>
                 </Grid>
-                <BoxView Color="#e2e8f0" HeightRequest="1" Margin="0,0,0,32"/>
+                <BoxView Color="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}" HeightRequest="1" Margin="0,0,0,32"/>
 
                 <!-- ── Botón Entrar ── -->
                 <Button Text="Entrar"
@@ -118,7 +118,7 @@
                 <!-- ── Separador "O continúa con" ── -->
                 <Grid ColumnDefinitions="*, Auto, *" Margin="0,0,0,16">
                     <BoxView Grid.Column="0"
-                             Color="#e2e8f0"
+                             Color="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
                              HeightRequest="1"
                              VerticalOptions="Center"/>
                     <Label Grid.Column="1"
@@ -128,17 +128,17 @@
                            Margin="12,0"
                            VerticalOptions="Center"/>
                     <BoxView Grid.Column="2"
-                             Color="#e2e8f0"
+                             Color="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
                              HeightRequest="1"
                              VerticalOptions="Center"/>
                 </Grid>
 
                 <!-- ── Botón Google ── -->
-                <Frame BorderColor="#e2e8f0"
+                <Frame BorderColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
                        CornerRadius="8"
                        Padding="0"
                        HasShadow="False"
-                       BackgroundColor="White"
+                       BackgroundColor="{AppThemeBinding Light=White, Dark=#1e1535}"
                        Margin="0,0,0,32">
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding GoogleLoginCommand}"/>
@@ -159,7 +159,7 @@
                         <Label Text="Continuar con Google"
                                FontSize="14"
                                FontAttributes="Bold"
-                               TextColor="#0f172a"
+                               TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
                                VerticalOptions="Center"/>
                     </StackLayout>
                 </Frame>
@@ -168,7 +168,7 @@
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="4">
                     <Label Text="¿No tienes una cuenta?"
                            FontSize="13"
-                           TextColor="#64748b"
+                           TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"
                            VerticalOptions="Center"/>
                     <Label Text="Crear Cuenta"
                            FontSize="13"

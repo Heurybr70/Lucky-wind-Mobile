@@ -3,23 +3,43 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Lucky_wind.ViewModels"
              x:Class="Lucky_wind.Views.DashboardPage"
-             BackgroundColor="#f6f6f8"
+             BackgroundColor="{AppThemeBinding Light=#f6f6f8, Dark=#131022}"
              NavigationPage.HasNavigationBar="False">
 
     <ScrollView>
         <StackLayout Spacing="0" Padding="28,56,28,40">
 
             <!-- ── Encabezado ── -->
-            <StackLayout Spacing="4" Margin="0,0,0,32">
-                <Label Text="MENÚ PRINCIPAL"
-                       FontSize="22"
-                       FontAttributes="Bold"
-                       TextColor="#0f172a"
-                       CharacterSpacing="1"/>
+            <StackLayout x:Name="HeaderStack" Spacing="4" Margin="0,0,0,32">
+                <Grid ColumnDefinitions="*, Auto">
+                    <Label Text="MENÚ PRINCIPAL"
+                           FontSize="22"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
+                           CharacterSpacing="1"
+                           VerticalOptions="Center"/>
+                    <!-- Botón tema claro/oscuro -->
+                    <Frame Grid.Column="1"
+                           HeightRequest="40"
+                           WidthRequest="40"
+                           CornerRadius="20"
+                           BackgroundColor="{AppThemeBinding Light=#ede9fc, Dark=#2d1f6e}"
+                           BorderColor="Transparent"
+                           HasShadow="False"
+                           Padding="0">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ToggleThemeCommand}"/>
+                        </Frame.GestureRecognizers>
+                        <Label Text="{Binding ThemeIcon}"
+                               FontSize="18"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Frame>
+                </Grid>
                 <StackLayout Orientation="Horizontal" Spacing="6">
                     <Label Text="Bienvenido,"
                            FontSize="14"
-                           TextColor="#64748b"/>
+                           TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"/>
                     <Label Text="{Binding UserEmail}"
                            FontSize="14"
                            FontAttributes="Bold"
@@ -34,10 +54,10 @@
                   RowSpacing="14">
 
                 <!-- Registrar Sorteo -->
-                <Frame Grid.Row="0" Grid.Column="0"
+                <Frame x:Name="Card1" Grid.Row="0" Grid.Column="0"
                        CornerRadius="16"
-                       BackgroundColor="White"
-                       BorderColor="#e2e8f0"
+                       BackgroundColor="{AppThemeBinding Light=White, Dark=#1e1535}"
+                       BorderColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
                        HasShadow="False"
                        Padding="16">
                     <Frame.GestureRecognizers>
@@ -47,7 +67,7 @@
                         <Frame HeightRequest="52"
                                WidthRequest="52"
                                CornerRadius="26"
-                               BackgroundColor="#ede9fc"
+                               BackgroundColor="{AppThemeBinding Light=#ede9fc, Dark=#2d1f6e}"
                                BorderColor="Transparent"
                                HasShadow="False"
                                Padding="0"
@@ -60,17 +80,17 @@
                         <Label Text="Registrar Sorteo"
                                FontSize="13"
                                FontAttributes="Bold"
-                               TextColor="#0f172a"
+                               TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
                                HorizontalOptions="Center"
                                HorizontalTextAlignment="Center"/>
                     </StackLayout>
                 </Frame>
 
                 <!-- Ver Historial -->
-                <Frame Grid.Row="0" Grid.Column="1"
+                <Frame x:Name="Card2" Grid.Row="0" Grid.Column="1"
                        CornerRadius="16"
-                       BackgroundColor="White"
-                       BorderColor="#e2e8f0"
+                       BackgroundColor="{AppThemeBinding Light=White, Dark=#1e1535}"
+                       BorderColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
                        HasShadow="False"
                        Padding="16">
                     <Frame.GestureRecognizers>
@@ -80,7 +100,7 @@
                         <Frame HeightRequest="52"
                                WidthRequest="52"
                                CornerRadius="26"
-                               BackgroundColor="#ede9fc"
+                               BackgroundColor="{AppThemeBinding Light=#ede9fc, Dark=#2d1f6e}"
                                BorderColor="Transparent"
                                HasShadow="False"
                                Padding="0"
@@ -93,17 +113,17 @@
                         <Label Text="Ver Historial"
                                FontSize="13"
                                FontAttributes="Bold"
-                               TextColor="#0f172a"
+                               TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
                                HorizontalOptions="Center"
                                HorizontalTextAlignment="Center"/>
                     </StackLayout>
                 </Frame>
 
                 <!-- Análisis Estadístico -->
-                <Frame Grid.Row="1" Grid.Column="0"
+                <Frame x:Name="Card3" Grid.Row="1" Grid.Column="0"
                        CornerRadius="16"
-                       BackgroundColor="White"
-                       BorderColor="#e2e8f0"
+                       BackgroundColor="{AppThemeBinding Light=White, Dark=#1e1535}"
+                       BorderColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
                        HasShadow="False"
                        Padding="16">
                     <Frame.GestureRecognizers>
@@ -113,7 +133,7 @@
                         <Frame HeightRequest="52"
                                WidthRequest="52"
                                CornerRadius="26"
-                               BackgroundColor="#ede9fc"
+                               BackgroundColor="{AppThemeBinding Light=#ede9fc, Dark=#2d1f6e}"
                                BorderColor="Transparent"
                                HasShadow="False"
                                Padding="0"
@@ -126,17 +146,17 @@
                         <Label Text="Análisis Estadístico"
                                FontSize="13"
                                FontAttributes="Bold"
-                               TextColor="#0f172a"
+                               TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
                                HorizontalOptions="Center"
                                HorizontalTextAlignment="Center"/>
                     </StackLayout>
                 </Frame>
 
                 <!-- Cerrar Sesión -->
-                <Frame Grid.Row="1" Grid.Column="1"
+                <Frame x:Name="Card4" Grid.Row="1" Grid.Column="1"
                        CornerRadius="16"
-                       BackgroundColor="#fff1f2"
-                       BorderColor="#fecdd3"
+                       BackgroundColor="{AppThemeBinding Light=#fff1f2, Dark=#2d1020}"
+                       BorderColor="{AppThemeBinding Light=#fecdd3, Dark=#5c1d2c}"
                        HasShadow="False"
                        Padding="16">
                     <Frame.GestureRecognizers>
@@ -146,7 +166,7 @@
                         <Frame HeightRequest="52"
                                WidthRequest="52"
                                CornerRadius="26"
-                               BackgroundColor="#fecdd3"
+                               BackgroundColor="{AppThemeBinding Light=#fecdd3, Dark=#5c1d2c}"
                                BorderColor="Transparent"
                                HasShadow="False"
                                Padding="0"
@@ -159,7 +179,7 @@
                         <Label Text="Cerrar Sesión"
                                FontSize="13"
                                FontAttributes="Bold"
-                               TextColor="#be123c"
+                               TextColor="{AppThemeBinding Light=#be123c, Dark=#fb7185}"
                                HorizontalOptions="Center"
                                HorizontalTextAlignment="Center"/>
                     </StackLayout>
@@ -172,9 +192,9 @@
                      Opacity="0.06"
                      HeightRequest="1"
                      Margin="0,40,0,16"/>
-            <Label Text="Lucky-Win · v1.0.0"
+            <Label Text="Participa y Gana · v1.0.0"
                    FontSize="11"
-                   TextColor="#94a3b8"
+                   TextColor="{AppThemeBinding Light=#94a3b8, Dark=#64748b}"
                    HorizontalOptions="Center"/>
 
         </StackLayout>

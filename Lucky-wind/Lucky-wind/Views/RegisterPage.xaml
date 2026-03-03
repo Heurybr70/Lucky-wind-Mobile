@@ -4,7 +4,7 @@
              xmlns:vm="clr-namespace:Lucky_wind.ViewModels"
              xmlns:conv="clr-namespace:Lucky_wind.Converters"
              x:Class="Lucky_wind.Views.RegisterPage"
-             BackgroundColor="#f6f6f8"
+             BackgroundColor="{AppThemeBinding Light=#f6f6f8, Dark=#131022}"
              NavigationPage.HasNavigationBar="False">
 
     <ContentPage.Resources>
@@ -16,11 +16,12 @@
     <Grid>
 
         <!-- ── Formulario principal ── -->
-        <ScrollView IsVisible="{Binding IsBusy, Converter={StaticResource InverseBool}}">
+        <ScrollView x:Name="FormContainer"
+                    IsVisible="{Binding IsBusy, Converter={StaticResource InverseBool}}">
             <StackLayout Spacing="0" Padding="0">
 
                 <!-- ── Header con botón atrás ── -->
-                <Grid BackgroundColor="#f6f6f8"
+                <Grid BackgroundColor="{AppThemeBinding Light=#f6f6f8, Dark=#131022}"
                       ColumnDefinitions="Auto, *, Auto"
                       Padding="12,48,12,12">
                     <Frame Grid.Column="0"
@@ -33,7 +34,7 @@
                            Padding="0">
                         <Label Text="←"
                                FontSize="22"
-                               TextColor="#0f172a"
+                               TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
                                HorizontalOptions="Center"
                                VerticalOptions="Center">
                             <Label.GestureRecognizers>
@@ -42,7 +43,7 @@
                         </Label>
                     </Frame>
                     <Label Grid.Column="1"
-                           Text="Lucky-Win"
+                           Text="Participa y Gana"
                            FontSize="17"
                            FontAttributes="Bold"
                            TextColor="#3211d4"
@@ -56,11 +57,11 @@
                     <Label Text="Crear cuenta"
                            FontSize="30"
                            FontAttributes="Bold"
-                           TextColor="#0f172a"
+                           TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
                            HorizontalOptions="Start"/>
                     <Label Text="Únete a nuestra comunidad hoy mismo."
                            FontSize="13"
-                           TextColor="#64748b"/>
+                           TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"/>
                 </StackLayout>
 
                 <!-- ── Campos del formulario ── -->
@@ -71,18 +72,18 @@
                         <Label Text="Email"
                                FontSize="13"
                                FontAttributes="Bold"
-                               TextColor="#475569"/>
-                        <Frame BorderColor="#e2e8f0"
+                               TextColor="{AppThemeBinding Light=#475569, Dark=#94a3b8}"/>
+                        <Frame BorderColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
                                CornerRadius="12"
                                Padding="14,0"
                                HasShadow="False"
-                               BackgroundColor="White"
+                               BackgroundColor="{AppThemeBinding Light=White, Dark=#1e1535}"
                                HeightRequest="52">
                             <Entry Placeholder="ejemplo@correo.com"
                                    Keyboard="Email"
                                    Text="{Binding Email}"
                                    BackgroundColor="Transparent"
-                                   TextColor="#0f172a"
+                                   TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
                                    PlaceholderColor="#cbd5e1"
                                    FontSize="15"
                                    VerticalOptions="Center"/>
@@ -94,12 +95,12 @@
                         <Label Text="Contraseña"
                                FontSize="13"
                                FontAttributes="Bold"
-                               TextColor="#475569"/>
-                        <Frame BorderColor="#e2e8f0"
+                               TextColor="{AppThemeBinding Light=#475569, Dark=#94a3b8}"/>
+                        <Frame BorderColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
                                CornerRadius="12"
                                Padding="14,0"
                                HasShadow="False"
-                               BackgroundColor="White"
+                               BackgroundColor="{AppThemeBinding Light=White, Dark=#1e1535}"
                                HeightRequest="52">
                             <Grid ColumnDefinitions="*, Auto">
                                 <Entry Grid.Column="0"
@@ -107,7 +108,7 @@
                                        Text="{Binding Password}"
                                        IsPassword="{Binding IsPasswordHidden}"
                                        BackgroundColor="Transparent"
-                                       TextColor="#0f172a"
+                                       TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
                                        PlaceholderColor="#cbd5e1"
                                        FontSize="15"
                                        VerticalOptions="Center"/>
@@ -129,12 +130,12 @@
                         <Label Text="Confirmar Contraseña"
                                FontSize="13"
                                FontAttributes="Bold"
-                               TextColor="#475569"/>
-                        <Frame BorderColor="#e2e8f0"
+                               TextColor="{AppThemeBinding Light=#475569, Dark=#94a3b8}"/>
+                        <Frame BorderColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
                                CornerRadius="12"
                                Padding="14,0"
                                HasShadow="False"
-                               BackgroundColor="White"
+                               BackgroundColor="{AppThemeBinding Light=White, Dark=#1e1535}"
                                HeightRequest="52">
                             <Grid ColumnDefinitions="*, Auto">
                                 <Entry Grid.Column="0"
@@ -142,7 +143,7 @@
                                        Text="{Binding ConfirmPassword}"
                                        IsPassword="{Binding IsConfirmPasswordHidden}"
                                        BackgroundColor="Transparent"
-                                       TextColor="#0f172a"
+                                       TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
                                        PlaceholderColor="#cbd5e1"
                                        FontSize="15"
                                        VerticalOptions="Center"/>

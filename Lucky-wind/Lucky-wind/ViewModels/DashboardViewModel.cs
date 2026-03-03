@@ -32,6 +32,12 @@ namespace Lucky_wind.ViewModels
         /// <summary>Navega a la sección de análisis estadístico.</summary>
         public ICommand AnalisisCommand { get; }
 
+        /// <summary>Alterna entre modo claro y oscuro.</summary>
+        public ICommand ToggleThemeCommand { get; }
+
+        /// <summary>Icono del tema actual (☀️ / 🌙).</summary>
+        public string ThemeIcon => ThemeService.IsDark ? "☀️" : "🌙";
+
         /// <summary>Cierra la sesión y regresa al Login.</summary>
         public ICommand LogoutCommand { get; }
 
@@ -66,6 +72,12 @@ namespace Lucky_wind.ViewModels
                     .DisplayAlert("Análisis Estadístico",
                                   "Esta funcionalidad estará disponible próximamente.",
                                   "Aceptar");
+            });
+
+            ToggleThemeCommand = new Command(() =>
+            {
+                ThemeService.Toggle();
+                OnPropertyChanged(nameof(ThemeIcon));
             });
 
             LogoutCommand = new Command(async () =>

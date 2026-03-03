@@ -24,14 +24,44 @@ namespace Lucky_wind.Views
         {
             base.OnAppearing();
 
-            // Estado inicial antes de animar
-            LogoFrame.Scale   = 0.7;
-            LogoFrame.Opacity = 0.0;
+            // ── Estado inicial: todo invisible / desplazado ──────────────────
+            LogoFrame.Scale       = 0.6;
+            LogoFrame.Opacity     = 0.0;
+            TitleLabel.Opacity    = 0.0;
+            TitleLabel.TranslationY = 20;
+            DividerBox.Opacity    = 0.0;
+            TaglineLabel.Opacity  = 0.0;
+            TaglineLabel.TranslationY = 10;
+            VersionLabel.Opacity  = 0.0;
+            StartFrame.Opacity    = 0.0;
+            StartFrame.TranslationY = 20;
 
-            // Animar: escalar y desvanecer hacia la opacidad plena (≥ 800 ms)
+            // ── 1. Logo aparece con rebote ───────────────────────────────────
             await Task.WhenAll(
-                LogoFrame.ScaleTo(1.0, 900, Easing.SpringOut),
-                LogoFrame.FadeTo(1.0, 800, Easing.CubicOut)
+                LogoFrame.ScaleTo(1.0, 700, Easing.SpringOut),
+                LogoFrame.FadeTo(1.0, 600, Easing.CubicOut)
+            );
+
+            // ── 2. Título desliza hacia arriba ───────────────────────────────
+            await Task.WhenAll(
+                TitleLabel.FadeTo(1.0, 400, Easing.CubicOut),
+                TitleLabel.TranslateTo(0, 0, 400, Easing.CubicOut)
+            );
+
+            // ── 3. Divisor y tagline juntos ──────────────────────────────────
+            await Task.WhenAll(
+                DividerBox.FadeTo(1.0, 350, Easing.CubicOut),
+                TaglineLabel.FadeTo(1.0, 350, Easing.CubicOut),
+                TaglineLabel.TranslateTo(0, 0, 350, Easing.CubicOut)
+            );
+
+            await Task.Delay(100);
+
+            // ── 4. Versión y botón de inicio ─────────────────────────────────
+            await Task.WhenAll(
+                VersionLabel.FadeTo(1.0, 350, Easing.CubicOut),
+                StartFrame.FadeTo(1.0, 350, Easing.CubicOut),
+                StartFrame.TranslateTo(0, 0, 350, Easing.CubicOut)
             );
         }
     }

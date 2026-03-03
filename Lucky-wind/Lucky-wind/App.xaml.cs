@@ -10,6 +10,9 @@ namespace Lucky_wind
         {
             InitializeComponent();
 
+            // Seguir el tema del sistema operativo (claro u oscuro)
+            UserAppTheme = OSAppTheme.Unspecified;
+
             // Si ya existe sesión activa, ir directo al Dashboard;
             // de lo contrario, comenzar en la pantalla Splash.
             if (AuthService.IsLoggedIn)
