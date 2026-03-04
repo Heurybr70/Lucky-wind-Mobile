@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Lucky_wind.Models
 {
@@ -34,6 +35,9 @@ namespace Lucky_wind.Models
 
         /// <summary>Nombre del ganador (se completa al finalizar).</summary>
         public string WinnerName { get; set; }
+
+        /// <summary>Lista de nombres de participantes del sorteo.</summary>
+        public List<string> Participants { get; set; } = new List<string>();
 
         // ─── Auditoría ────────────────────────────────────────────────────────────
         /// <summary>Fecha/hora de creación en UTC.</summary>

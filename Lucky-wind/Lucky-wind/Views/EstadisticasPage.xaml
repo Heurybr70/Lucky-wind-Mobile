@@ -30,7 +30,7 @@
                            BorderColor="Transparent"
                            HasShadow="False"
                            Padding="0">
-                        <Label Text="←"
+                        <Label Text="🔙"
                                FontSize="22"
                                TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
                                HorizontalOptions="Center"

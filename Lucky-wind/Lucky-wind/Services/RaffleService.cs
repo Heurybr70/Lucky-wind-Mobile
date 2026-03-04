@@ -147,26 +147,123 @@ namespace Lucky_wind.Services
             }
         }
 
+        // ─── Eliminar sorteo ──────────────────────────────────────────────────────
+        /// <summary>Elimina permanentemente un sorteo de Firestore.</summary>
+        public async Task<(bool Success, string Error)> DeleteRaffleAsync(string raffleId)
+        {
+            try
+            {
+                await AuthService.RefreshTokenIfNeededAsync().ConfigureAwait(false);
+                string userId  = AuthService.CurrentUser?.LocalId;
+                string idToken = AuthService.CurrentUser?.IdToken;
+                if (string.IsNullOrEmpty(userId)) return (false, "No hay sesión activa.");
+
+                var request = new HttpRequestMessage(
+                    HttpMethod.Delete,
+                    $"{DocumentUrl(userId, raffleId)}?key={FirebaseApiKey}");
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", idToken);
+
+                HttpResponseMessage response = await _http.SendAsync(request).ConfigureAwait(false);
+                string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                return response.IsSuccessStatusCode
+                    ? (true, null)
+                    : (false, ParseFirestoreError(responseBody));
+            }
+            catch (HttpRequestException)
+            {
+                return (false, "Sin conexión a Internet.");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Error inesperado: {ex.Message}");
+            }
+        }
+
+        // ─── Actualizar participantes ──────────────────────────────────────────────
+        /// <summary>Reemplaza la lista de participantes del sorteo en Firestore (PATCH).</summary>
+        public async Task<(bool Success, string Error)> UpdateParticipantsAsync(string raffleId, List<string> participants)
+        {
+            try
+            {
+                await AuthService.RefreshTokenIfNeededAsync().ConfigureAwait(false);
+                string userId  = AuthService.CurrentUser?.LocalId;
+                string idToken = AuthService.CurrentUser?.IdToken;
+                if (string.IsNullOrEmpty(userId)) return (false, "No hay sesión activa.");
+
+                // Construir arrayValue de Firestore
+                var values = new JArray();
+                foreach (var p in participants ?? new List<string>())
+                    values.Add(JObject.FromObject(new { stringValue = p }));
+
+                var patchBody = new JObject
+                {
+                    ["fields"] = new JObject
+                    {
+                        ["participants"] = new JObject
+                        {
+                            ["arrayValue"] = new JObject { ["values"] = values }
+                        },
+                        ["participantsCount"] = new JObject
+                        {
+                            ["integerValue"] = (participants?.Count ?? 0).ToString()
+                        }
+                    }
+                };
+
+                var content = new StringContent(
+                    patchBody.ToString(Formatting.None), Encoding.UTF8, "application/json");
+
+                string url = $"{DocumentUrl(userId, raffleId)}?key={FirebaseApiKey}" +
+                             "&updateMask.fieldPaths=participants&updateMask.fieldPaths=participantsCount";
+
+                var request = new HttpRequestMessage(new HttpMethod("PATCH"), url) { Content = content };
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", idToken);
+
+                HttpResponseMessage response = await _http.SendAsync(request).ConfigureAwait(false);
+                string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                return response.IsSuccessStatusCode
+                    ? (true, null)
+                    : (false, ParseFirestoreError(responseBody));
+            }
+            catch (HttpRequestException)
+            {
+                return (false, "Sin conexión a Internet.");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Error inesperado: {ex.Message}");
+            }
+        }
+
         // ─── Serialización / Deserialización Firestore ────────────────────────────
 
         /// <summary>Convierte un RaffleModel al formato de documento Firestore.</summary>
         private static string SerializeRaffle(RaffleModel r)
         {
-            var doc = new
+            // Construir la lista de participantes como arrayValue
+            var participantValues = new JArray();
+            if (r.Participants != null)
+                foreach (var p in r.Participants)
+                    participantValues.Add(JObject.FromObject(new { stringValue = p }));
+
+            var doc = new JObject
             {
-                fields = new
+                ["fields"] = new JObject
                 {
-                    name              = new { stringValue  = r.Name              ?? "" },
-                    prizeDescription  = new { stringValue  = r.PrizeDescription  ?? "" },
-                    participantsCount = new { integerValue = r.ParticipantsCount.ToString() },
-                    raffleDate        = new { timestampValue = r.RaffleDate.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'") },
-                    status            = new { stringValue  = r.Status            ?? RaffleStatus.Active },
-                    winnerName        = new { stringValue  = r.WinnerName        ?? "" },
-                    userId            = new { stringValue  = r.UserId            ?? "" },
-                    createdAt         = new { timestampValue = r.CreatedAt.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'") }
+                    ["name"]              = new JObject { ["stringValue"]  = r.Name              ?? "" },
+                    ["prizeDescription"]  = new JObject { ["stringValue"]  = r.PrizeDescription  ?? "" },
+                    ["participantsCount"] = new JObject { ["integerValue"] = r.ParticipantsCount.ToString() },
+                    ["raffleDate"]        = new JObject { ["timestampValue"] = r.RaffleDate.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'") },
+                    ["status"]            = new JObject { ["stringValue"]  = r.Status            ?? RaffleStatus.Active },
+                    ["winnerName"]        = new JObject { ["stringValue"]  = r.WinnerName        ?? "" },
+                    ["userId"]            = new JObject { ["stringValue"]  = r.UserId            ?? "" },
+                    ["createdAt"]         = new JObject { ["timestampValue"] = r.CreatedAt.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'") },
+                    ["participants"]      = new JObject { ["arrayValue"] = new JObject { ["values"] = participantValues } }
                 }
             };
-            return JsonConvert.SerializeObject(doc);
+            return doc.ToString(Formatting.None);
         }
 
         /// <summary>Extrae el ID del documento de la respuesta de creación.</summary>
@@ -223,6 +320,16 @@ namespace Lucky_wind.Services
                     // createdAt
                     if (DateTime.TryParse(fields["createdAt"]?["timestampValue"]?.ToString(), out DateTime createdAt))
                         raffle.CreatedAt = createdAt;
+
+                    // participants (arrayValue)
+                    var pArr = fields["participants"]?["arrayValue"]?["values"] as JArray;
+                    if (pArr != null)
+                        foreach (var pItem in pArr)
+                        {
+                            string pName = pItem["stringValue"]?.ToString();
+                            if (!string.IsNullOrWhiteSpace(pName))
+                                raffle.Participants.Add(pName);
+                        }
 
                     result.Add(raffle);
                 }

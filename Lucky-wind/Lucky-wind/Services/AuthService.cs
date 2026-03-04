@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lucky_wind.Models;
 using Newtonsoft.Json;
+using Xamarin.Essentials;
 
 namespace Lucky_wind.Services
 {
@@ -210,10 +211,72 @@ namespace Lucky_wind.Services
         }
 
         // ─── Logout ──────────────────────────────────────────────────────────────
-        /// <summary>Cierra la sesión activa del usuario.</summary>
+        /// <summary>Cierra la sesión activa del usuario y borra la sesión persistida.</summary>
         public void Logout()
         {
             CurrentUser = null;
+            try { SecureStorage.RemoveAll(); } catch { /* SecureStorage no disponible en simulador */ }
+        }
+
+        // ─── Persistencia de sesión ───────────────────────────────────────────────
+        /// <summary>
+        /// Guarda los tokens de la sesión actual en SecureStorage para persistencia entre reinicios.
+        /// Llamar justo después de un login o registro exitoso.
+        /// </summary>
+        public static async Task SaveSessionAsync()
+        {
+            if (CurrentUser == null) return;
+            try
+            {
+                await SecureStorage.SetAsync("uid",          CurrentUser.LocalId      ?? "").ConfigureAwait(false);
+                await SecureStorage.SetAsync("email",        CurrentUser.Email        ?? "").ConfigureAwait(false);
+                await SecureStorage.SetAsync("idToken",      CurrentUser.IdToken      ?? "").ConfigureAwait(false);
+                await SecureStorage.SetAsync("refreshToken", CurrentUser.RefreshToken ?? "").ConfigureAwait(false);
+            }
+            catch { /* SecureStorage puede fallar en emuladores sin keystore */ }
+        }
+
+        /// <summary>
+        /// Intenta restaurar la sesión desde SecureStorage.
+        /// Renueva el IdToken automáticamente usando el RefreshToken guardado.
+        /// </summary>
+        /// <returns>true si la sesión fue restaurada con éxito; false en caso contrario.</returns>
+        public static async Task<bool> RestoreSessionAsync()
+        {
+            try
+            {
+                string uid          = await SecureStorage.GetAsync("uid").ConfigureAwait(false);
+                string email        = await SecureStorage.GetAsync("email").ConfigureAwait(false);
+                string refreshToken = await SecureStorage.GetAsync("refreshToken").ConfigureAwait(false);
+
+                if (string.IsNullOrEmpty(uid) || string.IsNullOrEmpty(refreshToken))
+                    return false;
+
+                // Poblar CurrentUser con el mínimo necesario para poder refrescar
+                CurrentUser = new UserModel
+                {
+                    LocalId      = uid,
+                    Email        = email,
+                    RefreshToken = refreshToken,
+                    IdToken      = "" // vacío — se renovará a continuación
+                };
+
+                bool refreshed = await RefreshTokenIfNeededAsync().ConfigureAwait(false);
+                if (!refreshed)
+                {
+                    CurrentUser = null;
+                    return false;
+                }
+
+                // Guardar el token renovado
+                await SaveSessionAsync().ConfigureAwait(false);
+                return true;
+            }
+            catch
+            {
+                CurrentUser = null;
+                return false;
+            }
         }
 
         // ─── Helpers ─────────────────────────────────────────────────────────────

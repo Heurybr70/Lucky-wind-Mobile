@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:conv="clr-namespace:Lucky_wind.Converters"
              x:Class="Lucky_wind.Views.HistorialPage"
+             x:Name="HistorialPageRef"
              BackgroundColor="{AppThemeBinding Light=#f6f6f8, Dark=#131022}"
              NavigationPage.HasNavigationBar="False">
 
@@ -13,258 +14,233 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto, Auto, *">
+    <Grid RowDefinitions="Auto, Auto, Auto, *">
 
-        <!-- ── Header ── -->
+        <!-- Headers  -->
         <Grid x:Name="HeaderBar"
               Grid.Row="0"
               BackgroundColor="{AppThemeBinding Light=#f6f6f8, Dark=#131022}"
               ColumnDefinitions="Auto, *"
               Padding="12,48,12,12">
             <Frame Grid.Column="0"
-                   HeightRequest="40"
-                   WidthRequest="40"
-                   CornerRadius="20"
-                   BackgroundColor="Transparent"
-                   BorderColor="Transparent"
-                   HasShadow="False"
-                   Padding="0">
-                <Label Text="←"
-                       FontSize="22"
+                   HeightRequest="40" WidthRequest="40" CornerRadius="20"
+                   BackgroundColor="Transparent" BorderColor="Transparent"
+                   HasShadow="False" Padding="0">
+                <Label Text="🔙" FontSize="22"
                        TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center">
+                       HorizontalOptions="Center" VerticalOptions="Center">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnBackTapped"/>
                     </Label.GestureRecognizers>
                 </Label>
             </Frame>
-            <Label Grid.Column="1"
-                   Text="Historial"
-                   FontSize="20"
-                   FontAttributes="Bold"
+            <Label Grid.Column="1" Text="Historial"
+                   FontSize="20" FontAttributes="Bold"
                    TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
-                   VerticalOptions="Center"
-                   Margin="8,0,0,0"/>
+                   VerticalOptions="Center" Margin="8,0,0,0"/>
         </Grid>
 
-        <!-- ── Tabs de navegación ── -->
-        <Grid Grid.Row="1"
+        <!--Banner sin conexion -->
+        <Frame Grid.Row="1"
+               IsVisible="{Binding HasNoConnection}"
+               BackgroundColor="#f59e0b"
+               BorderColor="Transparent" HasShadow="False"
+               CornerRadius="0" Padding="12,6">
+            <Label Text="Sin conexion mostrando datos en cache"
+                   TextColor="White" FontSize="13"
+                   HorizontalOptions="Center"/>
+        </Frame>
+
+        <!-- Tabs de navegacion -->
+        <Grid Grid.Row="2"
               BackgroundColor="{AppThemeBinding Light=#f6f6f8, Dark=#131022}"
-              ColumnDefinitions="*, *"
-              Padding="16,0,16,0">
-            <!-- Tab Activos -->
+              ColumnDefinitions="*, *" Padding="16,0,16,0">
             <StackLayout Grid.Column="0" Spacing="0">
-                <Button Text="Activos"
-                        BackgroundColor="Transparent"
+                <Button Text="Activos" BackgroundColor="Transparent"
                         TextColor="{Binding IsActiveTabSelected, Converter={StaticResource BoolToColor},
                                     ConverterParameter='#3211d4|#94a3b8'}"
-                        FontAttributes="Bold"
-                        FontSize="14"
-                        HeightRequest="48"
+                        FontAttributes="Bold" FontSize="14" HeightRequest="48"
                         Command="{Binding SelectActiveCommand}"/>
-                <BoxView HeightRequest="2"
-                         CornerRadius="1"
-                         BackgroundColor="#3211d4"
-                         IsVisible="{Binding IsActiveTabSelected}"
-                         Margin="16,0"/>
+                <BoxView HeightRequest="2" CornerRadius="1" BackgroundColor="#3211d4"
+                         IsVisible="{Binding IsActiveTabSelected}" Margin="16,0"/>
             </StackLayout>
-            <!-- Tab Finalizados -->
             <StackLayout Grid.Column="1" Spacing="0">
-                <Button Text="Finalizados"
-                        BackgroundColor="Transparent"
+                <Button Text="Finalizados" BackgroundColor="Transparent"
                         TextColor="{Binding IsFinishedTabSelected, Converter={StaticResource BoolToColor},
                                     ConverterParameter='#3211d4|#94a3b8'}"
-                        FontAttributes="Bold"
-                        FontSize="14"
-                        HeightRequest="48"
+                        FontAttributes="Bold" FontSize="14" HeightRequest="48"
                         Command="{Binding SelectFinishedCommand}"/>
-                <BoxView HeightRequest="2"
-                         CornerRadius="1"
-                         BackgroundColor="#3211d4"
-                         IsVisible="{Binding IsFinishedTabSelected}"
-                         Margin="16,0"/>
+                <BoxView HeightRequest="2" CornerRadius="1" BackgroundColor="#3211d4"
+                         IsVisible="{Binding IsFinishedTabSelected}" Margin="16,0"/>
             </StackLayout>
         </Grid>
 
-        <!-- ── Contenido principal ── -->
-        <Grid Grid.Row="2">
+        <!-- Contenido principal  -->
+        <Grid Grid.Row="3">
 
             <!-- Error -->
-            <StackLayout IsVisible="{Binding HasError}"
-                         VerticalOptions="Center"
-                         HorizontalOptions="Center"
-                         Spacing="8"
-                         Padding="32">
-                <Label Text="⚠️"
-                       FontSize="40"
-                       HorizontalOptions="Center"/>
-                <Label Text="{Binding ErrorMessage}"
-                       FontSize="14"
+            <StackLayout IsVisible="{Binding HasError}" VerticalOptions="Center"
+                         HorizontalOptions="Center" Spacing="8" Padding="32">
+                <Label Text="¸" FontSize="40" HorizontalOptions="Center"/>
+                <Label Text="{Binding ErrorMessage}" FontSize="14"
                        TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"
-                       HorizontalOptions="Center"
-                       HorizontalTextAlignment="Center"/>
+                       HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
             </StackLayout>
 
             <!-- Cargando -->
-            <StackLayout IsVisible="{Binding IsBusy}"
-                         VerticalOptions="Center"
-                         HorizontalOptions="Center"
-                         Spacing="12">
-                <ActivityIndicator IsRunning="{Binding IsBusy}"
-                                   Color="#3211d4"
-                                   HeightRequest="48"
-                                   WidthRequest="48"/>
-                <Label Text="Cargando historial..."
-                       FontSize="13"
+            <StackLayout IsVisible="{Binding IsBusy}" VerticalOptions="Center"
+                         HorizontalOptions="Center" Spacing="12">
+                <ActivityIndicator IsRunning="{Binding IsBusy}" Color="#3211d4"
+                                   HeightRequest="48" WidthRequest="48"/>
+                <Label Text="Cargando historial..." FontSize="13"
                        TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"
                        HorizontalOptions="Center"/>
             </StackLayout>
 
-            <!-- Estado vacío -->
-            <StackLayout IsVisible="{Binding IsEmpty}"
-                         VerticalOptions="Center"
-                         HorizontalOptions="Center"
-                         Spacing="10"
-                         Padding="32">
-                <Label Text="📋"
-                       FontSize="48"
-                       HorizontalOptions="Center"/>
-                <Label Text="No hay sorteos aquí aún."
-                       FontSize="16"
-                       FontAttributes="Bold"
+            <!-- Estado vacio -->
+            <StackLayout IsVisible="{Binding IsEmpty}" VerticalOptions="Center"
+                         HorizontalOptions="Center" Spacing="10" Padding="32">
+                <Label Text="⚪" FontSize="48" HorizontalOptions="Center"/>
+                <Label Text="No hay sorteos aqui" FontSize="16" FontAttributes="Bold"
                        TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
                        HorizontalOptions="Center"/>
-                <Label Text="Crea tu primer sorteo desde el menú principal."
-                       FontSize="13"
+                <Label Text="Crea tu primer sorteo desde el menu principal." FontSize="13"
                        TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"
-                       HorizontalOptions="Center"
-                       HorizontalTextAlignment="Center"/>
+                       HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
             </StackLayout>
 
-            <!-- Lista Activos -->
-            <CollectionView x:Name="ActiveList"
-                            ItemsSource="{Binding ActiveRaffles}"
-                            IsVisible="{Binding ShowActive}"
-                            Margin="0,8,0,0">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid ColumnDefinitions="Auto, *, Auto"
-                              Padding="16,14"
-                              ColumnSpacing="14">
-                            <!-- Ícono -->
-                            <Frame Grid.Column="0"
-                                   HeightRequest="48"
-                                   WidthRequest="48"
-                                   CornerRadius="14"
-                                   BackgroundColor="{AppThemeBinding Light=#ede9fc, Dark=#2d1f6e}"
-                                   BorderColor="Transparent"
-                                   HasShadow="False"
-                                   Padding="0">
-                                <Label Text="🎰"
-                                       FontSize="22"
-                                       HorizontalOptions="Center"
-                                       VerticalOptions="Center"/>
-                            </Frame>
-                            <!-- Info -->
-                            <StackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
-                                <Label Text="{Binding Name}"
-                                       FontSize="15"
-                                       FontAttributes="Bold"
-                                       TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"/>
-                                <Label Text="{Binding ParticipantsCount, StringFormat='{0} participantes'}"
-                                       FontSize="12"
-                                       TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"/>
-                                <Label Text="{Binding FormattedDate}"
-                                       FontSize="11"
-                                       TextColor="{AppThemeBinding Light=#94a3b8, Dark=#64748b}"/>
-                            </StackLayout>
-                            <!-- Chevron + badge activo -->
-                            <StackLayout Grid.Column="2" VerticalOptions="Center" Spacing="4" HorizontalOptions="End">
-                                <Frame CornerRadius="8"
-                                       BackgroundColor="#d1fae5"
-                                       BorderColor="Transparent"
-                                       HasShadow="False"
-                                       Padding="8,3">
-                                    <Label Text="ACTIVO"
-                                           FontSize="9"
-                                           FontAttributes="Bold"
-                                           TextColor="#065f46"
-                                           CharacterSpacing="0.5"/>
-                                </Frame>
-                                <Label Text="›"
-                                       FontSize="20"
-                                       TextColor="{AppThemeBinding Light=#94a3b8, Dark=#475569}"
-                                       HorizontalOptions="Center"/>
-                            </StackLayout>
-                            <!-- Separador -->
-                            <BoxView Grid.ColumnSpan="3"
-                                     Color="{AppThemeBinding Light=#f1f5f9, Dark=#1e1535}"
-                                     HeightRequest="1"
-                                     VerticalOptions="End"/>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+            <!-- Lista Activos (con RefreshView) -->
+            <RefreshView IsVisible="{Binding ShowActive}"
+                         IsRefreshing="{Binding IsRefreshing}"
+                         Command="{Binding LoadCommand}"
+                         RefreshColor="#3211d4">
+                <CollectionView x:Name="ActiveList"
+                                ItemsSource="{Binding ActiveRaffles}"
+                                Margin="0,8,0,0">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Eliminar"
+                                                   BackgroundColor="#ef4444"
+                                                   Command="{Binding Source={x:Reference HistorialPageRef}, Path=BindingContext.DeleteCommand}"
+                                                   CommandParameter="{Binding .}"/>
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
 
-            <!-- Lista Finalizados -->
-            <CollectionView x:Name="FinishedList"
-                            ItemsSource="{Binding FinishedRaffles}"
-                            IsVisible="{Binding ShowFinished}"
-                            Margin="0,8,0,0">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid ColumnDefinitions="Auto, *, Auto"
-                              Padding="16,14"
-                              ColumnSpacing="14">
-                            <!-- Ícono -->
-                            <Frame Grid.Column="0"
-                                   HeightRequest="48"
-                                   WidthRequest="48"
-                                   CornerRadius="14"
-                                   BackgroundColor="{AppThemeBinding Light=#ede9fc, Dark=#2d1f6e}"
-                                   BorderColor="Transparent"
-                                   HasShadow="False"
-                                   Padding="0">
-                                <Label Text="🏆"
-                                       FontSize="22"
-                                       HorizontalOptions="Center"
-                                       VerticalOptions="Center"/>
-                            </Frame>
-                            <!-- Info -->
-                            <StackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
-                                <Label Text="{Binding Name}"
-                                       FontSize="15"
-                                       FontAttributes="Bold"
-                                       TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"/>
-                                <StackLayout Orientation="Horizontal" Spacing="4">
-                                    <Label Text="Ganador:"
-                                           FontSize="12"
-                                           FontAttributes="Bold"
-                                           TextColor="{AppThemeBinding Light=#475569, Dark=#94a3b8}"/>
-                                    <Label Text="{Binding WinnerName}"
-                                           FontSize="12"
-                                           TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"/>
-                                </StackLayout>
-                                <Label Text="{Binding FormattedDate}"
-                                       FontSize="11"
-                                       TextColor="{AppThemeBinding Light=#94a3b8, Dark=#64748b}"/>
-                            </StackLayout>
-                            <!-- Chevron -->
-                            <Label Grid.Column="2"
-                                   Text="›"
-                                   FontSize="22"
-                                   TextColor="{AppThemeBinding Light=#94a3b8, Dark=#475569}"
-                                   VerticalOptions="Center"/>
-                            <!-- Separador -->
-                            <BoxView Grid.ColumnSpan="3"
-                                     Color="{AppThemeBinding Light=#f1f5f9, Dark=#1e1535}"
-                                     HeightRequest="1"
-                                     VerticalOptions="End"/>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                                <Grid ColumnDefinitions="Auto, *, Auto"
+                                      Padding="16,14" ColumnSpacing="14">
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={x:Reference HistorialPageRef}, Path=BindingContext.SelectRaffleCommand}"
+                                            CommandParameter="{Binding .}"/>
+                                    </Grid.GestureRecognizers>
+
+                                    <!-- Ãcono -->
+                                    <Frame Grid.Column="0" HeightRequest="48" WidthRequest="48"
+                                           CornerRadius="14"
+                                           BackgroundColor="{AppThemeBinding Light=#ede9fc, Dark=#2d1f6e}"
+                                           BorderColor="Transparent" HasShadow="False" Padding="0">
+                                        <Label Text="🏆" FontSize="22"
+                                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Frame>
+                                    <!-- Info -->
+                                    <StackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                        <Label Text="{Binding Name}" FontSize="15" FontAttributes="Bold"
+                                               TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"/>
+                                        <Label Text="{Binding ParticipantsCount, StringFormat='{0} participantes'}"
+                                               FontSize="12"
+                                               TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"/>
+                                        <Label Text="{Binding FormattedDate}" FontSize="11"
+                                               TextColor="{AppThemeBinding Light=#94a3b8, Dark=#64748b}"/>
+                                    </StackLayout>
+                                    <!-- Badge + chevron -->
+                                    <StackLayout Grid.Column="2" VerticalOptions="Center"
+                                                 Spacing="4" HorizontalOptions="End">
+                                        <Frame CornerRadius="8" BackgroundColor="#d1fae5"
+                                               BorderColor="Transparent" HasShadow="False" Padding="8,3">
+                                            <Label Text="ACTIVO" FontSize="9" FontAttributes="Bold"
+                                                   TextColor="#065f46" CharacterSpacing="0.5"/>
+                                        </Frame>
+                                        <Label Text="" FontSize="20"
+                                               TextColor="{AppThemeBinding Light=#94a3b8, Dark=#475569}"
+                                               HorizontalOptions="Center"/>
+                                    </StackLayout>
+                                    <!-- Separador -->
+                                    <BoxView Grid.ColumnSpan="3"
+                                             Color="{AppThemeBinding Light=#f1f5f9, Dark=#1e1535}"
+                                             HeightRequest="1" VerticalOptions="End"/>
+                                </Grid>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+
+            <!-- Lista Finalizados (con RefreshView) -->
+            <RefreshView IsVisible="{Binding ShowFinished}"
+                         IsRefreshing="{Binding IsRefreshing}"
+                         Command="{Binding LoadCommand}"
+                         RefreshColor="#3211d4">
+                <CollectionView x:Name="FinishedList"
+                                ItemsSource="{Binding FinishedRaffles}"
+                                Margin="0,8,0,0">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Eliminar"
+                                                   BackgroundColor="#ef4444"
+                                                   Command="{Binding Source={x:Reference HistorialPageRef}, Path=BindingContext.DeleteCommand}"
+                                                   CommandParameter="{Binding .}"/>
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+
+                                <Grid ColumnDefinitions="Auto, *, Auto"
+                                      Padding="16,14" ColumnSpacing="14">
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={x:Reference HistorialPageRef}, Path=BindingContext.SelectRaffleCommand}"
+                                            CommandParameter="{Binding .}"/>
+                                    </Grid.GestureRecognizers>
+
+                                    <!-- Icono -->
+                                    <Frame Grid.Column="0" HeightRequest="48" WidthRequest="48"
+                                           CornerRadius="14"
+                                           BackgroundColor="{AppThemeBinding Light=#ede9fc, Dark=#2d1f6e}"
+                                           BorderColor="Transparent" HasShadow="False" Padding="0">
+                                        <Label Text="🏆" FontSize="22"
+                                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Frame>
+                                    <!-- Info -->
+                                    <StackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                        <Label Text="{Binding Name}" FontSize="15" FontAttributes="Bold"
+                                               TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"/>
+                                        <StackLayout Orientation="Horizontal" Spacing="4">
+                                            <Label Text="Ganador:" FontSize="12" FontAttributes="Bold"
+                                                   TextColor="{AppThemeBinding Light=#475569, Dark=#94a3b8}"/>
+                                            <Label Text="{Binding WinnerName}" FontSize="12"
+                                                   TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"/>
+                                        </StackLayout>
+                                        <Label Text="{Binding FormattedDate}" FontSize="11"
+                                               TextColor="{AppThemeBinding Light=#94a3b8, Dark=#64748b}"/>
+                                    </StackLayout>
+                                    <!-- Chevron -->
+                                    <Label Grid.Column="2" Text="" FontSize="22"
+                                           TextColor="{AppThemeBinding Light=#94a3b8, Dark=#475569}"
+                                           VerticalOptions="Center"/>
+                                    <!-- Separador -->
+                                    <BoxView Grid.ColumnSpan="3"
+                                             Color="{AppThemeBinding Light=#f1f5f9, Dark=#1e1535}"
+                                             HeightRequest="1" VerticalOptions="End"/>
+                                </Grid>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
 
         </Grid>
     </Grid>

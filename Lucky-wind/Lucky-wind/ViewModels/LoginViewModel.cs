@@ -100,6 +100,8 @@ namespace Lucky_wind.ViewModels
 
                     if (success)
                     {
+                        // Guardar sesión para persistencia entre reinicios
+                        await AuthService.SaveSessionAsync();
                         // Login exitoso: navegar al Dashboard y limpiar historial
                         Application.Current.MainPage =
                             new NavigationPage(new DashboardPage())
@@ -163,6 +165,7 @@ namespace Lucky_wind.ViewModels
 
                     if (success)
                     {
+                        await AuthService.SaveSessionAsync();
                         Application.Current.MainPage =
                             new NavigationPage(new DashboardPage())
                             {

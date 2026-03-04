@@ -9,7 +9,7 @@ namespace Lucky_wind.Views
         public HistorialPage()
         {
             InitializeComponent();
-            BindingContext = new HistorialViewModel();
+            BindingContext = new HistorialViewModel(Navigation);
         }
 
         protected override async void OnAppearing()

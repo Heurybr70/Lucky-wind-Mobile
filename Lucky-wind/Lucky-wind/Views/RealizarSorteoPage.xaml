@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:conv="clr-namespace:Lucky_wind.Converters"
+             x:Class="Lucky_wind.Views.RealizarSorteoPage"
+             BackgroundColor="{AppThemeBinding Light=#f6f6f8, Dark=#131022}"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:InverseBoolConverter x:Key="InverseBool"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto, *">
+
+        <!-- ── Header ── -->
+        <Grid Grid.Row="0"
+              BackgroundColor="{AppThemeBinding Light=#f6f6f8, Dark=#131022}"
+              ColumnDefinitions="Auto, *, Auto"
+              Padding="12,48,12,12">
+            <Frame Grid.Column="0"
+                   HeightRequest="40" WidthRequest="40" CornerRadius="20"
+                   BackgroundColor="Transparent" BorderColor="Transparent"
+                   HasShadow="False" Padding="0">
+                <Label Text="🔙" FontSize="22"
+                       TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
+                       HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackTapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </Frame>
+            <Label Grid.Column="1" Text="Realizar Sorteo"
+                   FontSize="18" FontAttributes="Bold"
+                   TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
+                   HorizontalOptions="Center" VerticalOptions="Center"/>
+        </Grid>
+
+        <!-- ── Cuerpo principal ── -->
+        <ScrollView Grid.Row="1">
+            <StackLayout Spacing="0" Padding="20,8,20,32">
+
+                <!-- ── Hero — círculo con animación ── -->
+                <StackLayout HorizontalOptions="Center" Spacing="12" Margin="0,16,0,24">
+                    <!-- Aro exterior (dash simulado con Frame anidados) -->
+                    <Frame x:Name="HeroRing"
+                           HeightRequest="200" WidthRequest="200"
+                           CornerRadius="100"
+                           BackgroundColor="Transparent"
+                           BorderColor="{AppThemeBinding Light=#ddd6fe, Dark=#3d2b6e}"
+                           HasShadow="False" Padding="6">
+                        <!-- Círculo interior -->
+                        <Frame x:Name="HeroCircle"
+                               CornerRadius="94"
+                               BackgroundColor="{AppThemeBinding Light=#ede9fe, Dark=#2d1f6e}"
+                               BorderColor="Transparent"
+                               HasShadow="False" Padding="0">
+                            <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="4">
+                                <!-- Ícono de casino -->
+                                <Label Text="🎰" FontSize="46"
+                                       HorizontalOptions="Center"
+                                       IsVisible="{Binding IsWaiting}"/>
+                                <!-- Nombre durante la animación / ganador -->
+                                <Label x:Name="SpinLabel"
+                                       Text="{Binding CurrentDisplay}"
+                                       FontSize="22" FontAttributes="Bold"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center"
+                                       MaxLines="2" LineBreakMode="WordWrap"
+                                       Margin="12,0"
+                                       IsVisible="{Binding IsWaiting, Converter={x:StaticResource InverseBool}}">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding HasWinner}" Value="True">
+                                            <Setter Property="TextColor" Value="#3211d4"/>
+                                            <Setter Property="FontSize" Value="20"/>
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsSpinning}" Value="True">
+                                            <Setter Property="TextColor" Value="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"/>
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                            </StackLayout>
+                        </Frame>
+                    </Frame>
+
+                    <!-- Badge de estado bajo el círculo -->
+                    <Frame CornerRadius="12" Padding="14,6" HasShadow="False" HorizontalOptions="Center">
+                        <Frame.Triggers>
+                            <DataTrigger TargetType="Frame" Binding="{Binding IsWaiting}" Value="True">
+                                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#f1f5f9, Dark=#1e1535}"/>
+                                <Setter Property="BorderColor" Value="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Frame" Binding="{Binding IsSpinning}" Value="True">
+                                <Setter Property="BackgroundColor" Value="#ede9fe"/>
+                                <Setter Property="BorderColor" Value="#c4b5fd"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Frame" Binding="{Binding HasWinner}" Value="True">
+                                <Setter Property="BackgroundColor" Value="#d1fae5"/>
+                                <Setter Property="BorderColor" Value="#6ee7b7"/>
+                            </DataTrigger>
+                        </Frame.Triggers>
+                        <Label FontSize="13" FontAttributes="Bold" CharacterSpacing="0.5">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsWaiting}" Value="True">
+                                    <Setter Property="Text" Value="⏳ Esperando"/>
+                                    <Setter Property="TextColor" Value="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"/>
+                                </DataTrigger>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsSpinning}" Value="True">
+                                    <Setter Property="Text" Value="🎲 Sorteando..."/>
+                                    <Setter Property="TextColor" Value="#5b21b6"/>
+                                </DataTrigger>
+                                <DataTrigger TargetType="Label" Binding="{Binding HasWinner}" Value="True">
+                                    <Setter Property="Text" Value="🏆 ¡Ganador!"/>
+                                    <Setter Property="TextColor" Value="#065f46"/>
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                    </Frame>
+                </StackLayout>
+
+                <!-- ── Texto central ── -->
+                <Label x:Name="TitleLabel"
+                       FontSize="22" FontAttributes="Bold"
+                       HorizontalOptions="Center" HorizontalTextAlignment="Center"
+                       TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
+                       Margin="0,0,0,8">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding IsWaiting}" Value="True">
+                            <Setter Property="Text" Value="Listos para sortear"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label" Binding="{Binding IsSpinning}" Value="True">
+                            <Setter Property="Text" Value="Seleccionando ganador..."/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label" Binding="{Binding HasWinner}" Value="True">
+                            <Setter Property="Text" Value="🎉 ¡Tenemos un ganador!"/>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+
+                <Label FontSize="14" HorizontalOptions="Center" HorizontalTextAlignment="Center"
+                       Margin="0,0,0,20"
+                       TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding IsWaiting}" Value="True">
+                            <Setter Property="Text" Value="Todos los participantes están registrados.\nPresiona para dar inicio al sorteo."/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label" Binding="{Binding IsSpinning}" Value="True">
+                            <Setter Property="Text" Value="El sistema está seleccionando un ganador de forma aleatoria..."/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label" Binding="{Binding HasWinner}" Value="True">
+                            <Setter Property="Text" Value="El resultado ha sido registrado de forma transparente y verificada."/>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+
+                <!-- ── Botón principal ── -->
+                <Button x:Name="MainButton"
+                        CornerRadius="16"
+                        FontSize="17" FontAttributes="Bold"
+                        HeightRequest="54"
+                        Margin="0,0,0,24">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding IsWaiting}" Value="True">
+                            <Setter Property="Text" Value="🎉 Iniciar Sorteo"/>
+                            <Setter Property="BackgroundColor" Value="#3211d4"/>
+                            <Setter Property="TextColor" Value="White"/>
+                            <Setter Property="Command" Value="{Binding IniciarSorteoCommand}"/>
+                            <Setter Property="IsEnabled" Value="True"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button" Binding="{Binding IsSpinning}" Value="True">
+                            <Setter Property="Text" Value="🎲 Sorteando..."/>
+                            <Setter Property="BackgroundColor" Value="#94a3b8"/>
+                            <Setter Property="TextColor" Value="White"/>
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button" Binding="{Binding HasWinner}" Value="True">
+                            <Setter Property="Text" Value="🎊 Compartir Resultado"/>
+                            <Setter Property="BackgroundColor" Value="#059669"/>
+                            <Setter Property="TextColor" Value="White"/>
+                            <Setter Property="Command" Value="{Binding CompartirCommand}"/>
+                            <Setter Property="IsEnabled" Value="True"/>
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+
+                <!-- ── Participantes (scroll horizontal) ── -->
+                <Label Text="Participantes"
+                       FontSize="16" FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"
+                       Margin="0,0,0,10"/>
+
+                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never" Margin="0,0,0,20">
+                    <StackLayout Orientation="Horizontal" Spacing="12"
+                                 BindableLayout.ItemsSource="{Binding ParticipantItems}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Spacing="6" WidthRequest="68" HorizontalOptions="Center">
+                                    <!-- Avatar círculo de color -->
+                                    <Frame HeightRequest="56" WidthRequest="56" CornerRadius="28"
+                                           BackgroundColor="{Binding AvatarColor}"
+                                           BorderColor="Transparent" HasShadow="False" Padding="0"
+                                           HorizontalOptions="Center">
+                                        <Label Text="{Binding Initial}"
+                                               FontSize="22" FontAttributes="Bold" TextColor="White"
+                                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Frame>
+                                    <!-- Nombre -->
+                                    <Label Text="{Binding Name}"
+                                           FontSize="12" HorizontalOptions="Center"
+                                           HorizontalTextAlignment="Center"
+                                           MaxLines="2" LineBreakMode="TailTruncation"
+                                           TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"/>
+                                </StackLayout>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+                </ScrollView>
+
+                <!-- ── Tarjeta "Sorteo Verificado" ── -->
+                <Frame CornerRadius="14"
+                       BackgroundColor="{AppThemeBinding Light=White, Dark=#1e1535}"
+                       BorderColor="{AppThemeBinding Light=#e2e8f0, Dark=#2d2556}"
+                       HasShadow="False" Padding="14">
+                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12">
+                        <Frame Grid.Column="0"
+                               HeightRequest="44" WidthRequest="44" CornerRadius="22"
+                               BackgroundColor="#ede9fe" BorderColor="Transparent"
+                               HasShadow="False" Padding="0">
+                            <Label Text="✓" FontSize="20" FontAttributes="Bold"
+                                   TextColor="#3211d4"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Frame>
+                        <StackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                            <Label Text="Sorteo Verificado" FontSize="14" FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light=#0f172a, Dark=#f1f5f9}"/>
+                            <Label Text="Este sorteo utiliza un algoritmo de selección aleatoria transparente. Los resultados se guardan en la nube."
+                                   FontSize="12"
+                                   TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"/>
+                        </StackLayout>
+                    </Grid>
+                </Frame>
+
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

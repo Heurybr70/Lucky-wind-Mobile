@@ -33,8 +33,21 @@ namespace Lucky_wind
             }
         }
 
-        protected override void OnStart()
+        protected override async void OnStart()
         {
+            // Intentar restaurar la sesión guardada; si tiene éxito, saltar el splash
+            bool restored = await AuthService.RestoreSessionAsync();
+            if (restored)
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    MainPage = new NavigationPage(new DashboardPage())
+                    {
+                        BarBackgroundColor = Color.FromHex("#3211d4"),
+                        BarTextColor       = Color.White
+                    };
+                });
+            }
         }
 
         protected override void OnSleep()
